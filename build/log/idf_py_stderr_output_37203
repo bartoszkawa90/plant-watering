@@ -1,0 +1,24 @@
+[0;33m--- esp-idf-monitor 1.4.0 on /dev/cu.usbserial-0001 115200 ---[0m
+[0;33m--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H ---[0m
+[0;33m0x40080400: _init at ??:?
+[0m
+[0;33m0x400d775b: task_wdt_timeout_handling at /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esp_system/task_wdt/task_wdt.c:441
+0x400d7b20: task_wdt_isr at /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esp_system/task_wdt/task_wdt.c:515
+0x40082f51: _xt_lowint1 at /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/xtensa/xtensa_vectors.S:1240
+0x400d4be1: uart_tx_char at /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/vfs/vfs_uart.c:163
+0x400d53ab: uart_write at /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/vfs/vfs_uart.c:218
+0x400d421f: console_write at /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/vfs/vfs_console.c:73 (discriminator 1)
+0x400d3daa: esp_vfs_write at /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/vfs/vfs.c:482 (discriminator 4)
+0x4000bd83: _write_r in ROM
+0x4000117d: __swrite in ROM
+0x400592fe: __sflush_r in ROM
+0x4005937a: _fflush_r in ROM
+0x400d91a5: __sfvwrite_r at /Users/brnomac003/.gitlab-runner/builds/qR2TxTby/0/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/fvwrite.c:251
+0x400dd0df: __sprint_r at /Users/brnomac003/.gitlab-runner/builds/qR2TxTby/0/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vfiprintf.c:429
+ (inlined by) __sprint_r at /Users/brnomac003/.gitlab-runner/builds/qR2TxTby/0/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vfprintf.c:399
+0x400dcaa2: _vfprintf_r at /Users/brnomac003/.gitlab-runner/builds/qR2TxTby/0/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vfprintf.c:1774 (discriminator 1)
+0x400d9227: printf at /Users/brnomac003/.gitlab-runner/builds/qR2TxTby/0/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/printf.c:56
+0x400d5437: log_moist_value at /Users/bartoszkawa/Desktop/astudia/Sensory/esp/project/main/main.c:87 (discriminator 1)
+0x40086021: vPortTaskWrapper at /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:134
+[0m
+[0m

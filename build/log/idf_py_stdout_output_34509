@@ -1,0 +1,74 @@
+[1/10] Performing build step for 'bootloader'
+[1/1] cd /Users/bartoszkawa/Desktop/astudia/Sensory/esp/project/build/bootloader/esp-idf/esptool_py && /Users/bartoszkawa/.espressif/python_env/idf5.2_py3.12_env/bin/python /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 /Users/bartoszkawa/Desktop/astudia/Sensory/esp/project/build/bootloader/bootloader.bin
+Bootloader binary size 0x6860 bytes. 0x7a0 bytes (7%) free.
+[2/8] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/main.c.obj
+In file included from /Users/bartoszkawa/Desktop/astudia/Sensory/esp/project/main/main.c:5:
+/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/driver/deprecated/driver/adc.h:19:2: warning: #warning "legacy adc driver is deprecated, please migrate to use esp_adc/adc_oneshot.h and esp_adc/adc_continuous.h for oneshot mode and continuous mode drivers respectively" [-Wcpp]
+   19 | #warning "legacy adc driver is deprecated, please migrate to use esp_adc/adc_oneshot.h and esp_adc/adc_continuous.h for oneshot mode and continuous mode drivers respectively"
+      |  ^~~~~~~
+In file included from /Users/bartoszkawa/Desktop/astudia/Sensory/esp/project/main/main.c:6:
+/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esp_adc/deprecated/include/esp_adc_cal.h:17:2: warning: #warning "legacy adc calibration driver is deprecated, please migrate to use esp_adc/adc_cali.h and esp_adc/adc_cali_scheme.h" [-Wcpp]
+   17 | #warning "legacy adc calibration driver is deprecated, please migrate to use esp_adc/adc_cali.h and esp_adc/adc_cali_scheme.h"
+      |  ^~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/esp/project/main/main.c:13:1: warning: 'ADC_ATTEN_DB_11' is deprecated [-Wdeprecated-declarations]
+   13 | static const adc_atten_t atten = ADC_ATTEN_DB_11;
+      | ^~~~~~
+In file included from /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/driver/deprecated/driver/adc_types_legacy.h:8,
+                 from /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/driver/deprecated/driver/adc.h:15:
+/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/hal/include/hal/adc_types.h:51:5: note: declared here
+   51 |     ADC_ATTEN_DB_11 __attribute__((deprecated)) = ADC_ATTEN_DB_12,  ///<This is deprecated, it behaves the same as `ADC_ATTEN_DB_12`
+      |     ^~~~~~~~~~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/esp/project/main/main.c: In function 'moisture_meter_task':
+/Users/bartoszkawa/Desktop/astudia/Sensory/esp/project/main/main.c:58:25: warning: unused variable 'val_type' [-Wunused-variable]
+   58 |     esp_adc_cal_value_t val_type = esp_adc_cal_characterize(unit, atten, ADC_WIDTH_BIT_12, DEFAULT_VREF, adc_chars);
+      |                         ^~~~~~~~
+[3/8] Linking C static library esp-idf/main/libmain.a
+[4/8] Generating ld/sections.ld
+[5/8] Linking CXX executable hello_world.elf
+[6/8] Generating binary image from built executable
+esptool.py v4.7.0
+Creating esp32 image...
+Merged 2 ELF sections
+Successfully created esp32 image.
+Generated /Users/bartoszkawa/Desktop/astudia/Sensory/esp/project/build/hello_world.bin
+[7/8] cd /Users/bartoszkawa/Desktop/astudia/Sensory/esp/project/build/esp-idf/esptool_py && /Users/bartoszkawa/.espressif/python_env/idf5.2_py3.12_env/bin/python /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /Users/bartoszkawa/Desktop/astudia/Sensory/esp/project/build/partition_table/partition-table.bin /Users/bartoszkawa/Desktop/astudia/Sensory/esp/project/build/hello_world.bin
+hello_world.bin binary size 0x2d100 bytes. Smallest app partition is 0x100000 bytes. 0xd2f00 bytes (82%) free.
+[7/8] cd /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esptool_py && /opt/local/bin/cmake -D IDF_PATH=/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf -D "SERIAL_TOOL=/Users/bartoszkawa/.espressif/python_env/idf5.2_py3.12_env/bin/python;;/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esptool_py/esptool/esptool.py;--chip;esp32" -D "SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args" -D WORKING_DIRECTORY=/Users/bartoszkawa/Desktop/astudia/Sensory/esp/project/build -P /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esptool_py/run_serial_tool.cmake
+esptool.py --chip esp32 -p /dev/cu.usbserial-0001 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 40m --flash_size 2MB 0x1000 bootloader/bootloader.bin 0x10000 hello_world.bin 0x8000 partition_table/partition-table.bin
+esptool.py v4.7.0
+Serial port /dev/cu.usbserial-0001
+Connecting....
+Chip is ESP32-D0WD-V3 (revision v3.0)
+Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
+Crystal is 40MHz
+MAC: 30:c6:f7:43:0d:14
+Uploading stub...
+Running stub...
+Stub running...
+Changing baud rate to 460800
+Changed.
+Configuring flash size...
+Flash will be erased from 0x00001000 to 0x00007fff...
+Flash will be erased from 0x00010000 to 0x0003dfff...
+Flash will be erased from 0x00008000 to 0x00008fff...
+Compressed 26720 bytes to 16359...
+Writing at 0x00001000... (100 %)
+Wrote 26720 bytes (16359 compressed) at 0x00001000 in 0.5 seconds (effective 397.5 kbit/s)...
+Hash of data verified.
+Compressed 184576 bytes to 98582...
+Writing at 0x00010000... (14 %)
+Writing at 0x0001c7f1... (28 %)
+Writing at 0x00022255... (42 %)
+Writing at 0x00027ce2... (57 %)
+Writing at 0x0002f5a9... (71 %)
+Writing at 0x000367b5... (85 %)
+Writing at 0x0003cfb4... (100 %)
+Wrote 184576 bytes (98582 compressed) at 0x00010000 in 2.6 seconds (effective 577.8 kbit/s)...
+Hash of data verified.
+Compressed 3072 bytes to 103...
+Writing at 0x00008000... (100 %)
+Wrote 3072 bytes (103 compressed) at 0x00008000 in 0.0 seconds (effective 888.9 kbit/s)...
+Hash of data verified.
+
+Leaving...
+Hard resetting via RTS pin...

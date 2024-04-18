@@ -12,6 +12,7 @@ static esp_adc_cal_characteristics_t *adc_chars;
 static const adc_channel_t channel = ADC_CHANNEL_0;     // GPIO4 if ADC1, GPIO14 if ADC2
 static const adc_atten_t atten = ADC_ATTEN_DB_11;
 static const adc_unit_t unit = ADC_UNIT_2;
+static uint32_t MOIST_MEASUREMENT = 0;
 
 // void check_efuse() {
 //     // Check TP is burned into eFuse
@@ -38,9 +39,11 @@ static const adc_unit_t unit = ADC_UNIT_2;
 //     }
 // }
 
-void app_main() {
-    // Check if Two Point or Vref are burned into eFuse
-    // check_efuse();
+void moisture_meter_task(void *pvParameters)
+{
+    /*
+        ---
+    */
 
     // Configure ADC
     if (unit == ADC_UNIT_1) {
@@ -53,7 +56,6 @@ void app_main() {
     // Characterize ADC
     adc_chars = calloc(1, sizeof(esp_adc_cal_characteristics_t));
     esp_adc_cal_value_t val_type = esp_adc_cal_characterize(unit, atten, ADC_WIDTH_BIT_12, DEFAULT_VREF, adc_chars);
-    // print_char_val_type(val_type);
 
     // Continuously sample ADC1
     while (1) {
@@ -71,7 +73,24 @@ void app_main() {
         adc_reading /= NO_OF_SAMPLES;
         // Convert adc_reading to voltage in mV
         uint32_t voltage = esp_adc_cal_raw_to_voltage(adc_reading, adc_chars);
-        printf("Raw: %ld\tVoltage: %ldmV\n", adc_reading, voltage);
+        // printf("Raw: %ld\tVoltage: %ldmV\n", adc_reading, voltage);
+        MOIST_MEASUREMENT = voltage;
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
+}
+
+void log_moist_value(void *pvParameters)
+{
+    /*
+    */
+    while (1){
+        printf(" --- MAIN APP: Voltage [mV] %ld\n", MOIST_MEASUREMENT);
+    }
+}
+
+    
+// MAIN APP
+void app_main() {
+    xTaskCreate(moisture_meter_task, "moisture meter task", 2048, NULL, 1, NULL);
+    xTaskCreate(log_moist_value, "moist meter value", 2048, NULL, 2, NULL);
 }
