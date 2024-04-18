@@ -1413,7 +1413,7 @@ rule C_STATIC_LIBRARY_LINKER____idf_main_
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /opt/local/bin/cmake --regenerate-during-build -S/Users/bartoszkawa/Desktop/astudia/Sensory/esp/project -B/Users/bartoszkawa/Desktop/astudia/Sensory/esp/project/build
+  command = /opt/local/bin/cmake --regenerate-during-build -S/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering -B/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/build
   description = Re-running CMake...
   generator = 1
 

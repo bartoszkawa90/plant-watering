@@ -1,4 +1,4 @@
-# Install script for directory: /Users/bartoszkawa/Desktop/astudia/Sensory/esp/project/main
+# Install script for directory: /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

@@ -1,4 +1,4 @@
-/* * Data converted from /Users/bartoszkawa/Desktop/astudia/Sensory/esp/project/build/esp-idf/mbedtls/x509_crt_bundle
+/* * Data converted from /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/build/esp-idf/mbedtls/x509_crt_bundle
  */
 .data
 .section .rodata.embedded

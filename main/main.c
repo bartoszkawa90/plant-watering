@@ -83,8 +83,17 @@ void log_moist_value(void *pvParameters)
 {
     /*
     */
+    uint16_t *time_delay = (uint16_t *)pvParameters;
     while (1){
-        printf(" --- MAIN APP: Voltage [mV] %ld\n", MOIST_MEASUREMENT);
+        if (*time_delay == 0){
+            vTaskDelay(pdMS_TO_TICKS(*time_delay));
+            printf(" --- MAIN APP: Voltage [mV] %ld with delay: %u\n", MOIST_MEASUREMENT, *time_delay);
+        }
+        else {
+            vTaskDelay(pdMS_TO_TICKS(1000));
+            printf(" --- MAIN APP: Voltage [mV] %ld with delay: 1000\n", MOIST_MEASUREMENT);
+        }
+        
     }
 }
 
@@ -92,5 +101,6 @@ void log_moist_value(void *pvParameters)
 // MAIN APP
 void app_main() {
     xTaskCreate(moisture_meter_task, "moisture meter task", 2048, NULL, 1, NULL);
-    xTaskCreate(log_moist_value, "moist meter value", 2048, NULL, 2, NULL);
+    uint16_t log_moist_value_delay = 1000;
+    xTaskCreate(log_moist_value, "moist meter value", 4096, (void *)&log_moist_value_delay, 2, NULL);
 }
