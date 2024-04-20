@@ -5,6 +5,8 @@
 #include <driver/adc.h>
 #include <esp_adc_cal.h>
 
+#include "webui.c"
+
 #define DEFAULT_VREF    1100        // Use adc2_vref_to_gpio() to obtain a better estimate
 #define NO_OF_SAMPLES   64          // Multisampling
 
@@ -87,11 +89,11 @@ void log_moist_value(void *pvParameters)
     while (1){
         if (*time_delay == 0){
             vTaskDelay(pdMS_TO_TICKS(*time_delay));
-            printf(" --- MAIN APP: Voltage [mV] %ld with delay: %u\n", MOIST_MEASUREMENT, *time_delay);
+            printf(" --- MAIN APP: Moisture Meter Voltage [mV] %ld with delay: %u\n", MOIST_MEASUREMENT, *time_delay);
         }
         else {
             vTaskDelay(pdMS_TO_TICKS(1000));
-            printf(" --- MAIN APP: Voltage [mV] %ld with delay: 1000\n", MOIST_MEASUREMENT);
+            printf(" --- MAIN APP: Moisture Meter Voltage [mV] %ld with delay: 1000\n", MOIST_MEASUREMENT);
         }
         
     }
@@ -100,7 +102,10 @@ void log_moist_value(void *pvParameters)
     
 // MAIN APP
 void app_main() {
-    xTaskCreate(moisture_meter_task, "moisture meter task", 2048, NULL, 1, NULL);
-    uint16_t log_moist_value_delay = 1000;
-    xTaskCreate(log_moist_value, "moist meter value", 4096, (void *)&log_moist_value_delay, 2, NULL);
+
+    webui_task();
+
+    // xTaskCreate(moisture_meter_task, "moisture meter task", 2048, NULL, 1, NULL);
+    // uint16_t log_moist_value_delay = 1000;
+    // xTaskCreate(log_moist_value, "moist meter value", 4096, (void *)&log_moist_value_delay, 2, NULL);
 }
