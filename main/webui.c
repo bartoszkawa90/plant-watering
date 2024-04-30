@@ -1,189 +1,84 @@
-// src.c
-#include <esp_system.h>
-#include <nvs_flash.h>
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include "esp_wifi.h"
-#include "esp_event.h"
-#include "freertos/event_groups.h"
-#include "esp_log.h"
-#include "nvs_flash.h"
-#include "esp_netif.h"
-#include "driver/gpio.h"
-#include <lwip/sockets.h>
-#include <lwip/sys.h>
-#include <lwip/api.h>
-#include <lwip/netdb.h>
-
-// main.c
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h> 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_system.h"
-#include "esp_spi_flash.h"
-#include <esp_http_server.h>
 #include "nvs_flash.h"
-#include "esp_spiffs.h"
+#include "esp_event.h"
+#include "esp_log.h"
+#include "esp_wifi.h"
+#include "esp_http_server.h"
 
-// defaults
-#define EXAMPLE_ESP_WIFI_SSID CONFIG_ESP_WIFI_SSID
-#define EXAMPLE_ESP_WIFI_PASS CONFIG_ESP_WIFI_PASSWORD
-#define EXAMPLE_ESP_MAXIMUM_RETRY CONFIG_ESP_MAXIMUM_RETRY
+// Replace with your Wi-Fi credentials
+#define WIFI_SSID "Galaxy M213EBB"
+#define WIFI_PASS "wwmz5043"
 
-// setup variables
-static int retry_nr = 0;
-int wifi_status = 0;
+// GPIO pin where the LED is connected
+#define LED_GPIO_PIN 2
 
-static const char *wifi_status_log = "Wifi: ";
-
-
-// potrzebne ?
-static void event_handler(void *arg, esp_event_base_t event_base,
-                          int32_t event_id, void *event_data)
-{
-    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START)
-    {
-        esp_wifi_connect();
-    }
-    else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED)
-    {
-        if (s_retry_num < EXAMPLE_ESP_MAXIMUM_RETRY)
-        {
-            esp_wifi_connect();
-            s_retry_num++;
-            ESP_LOGI(TAG, "retry to connect to the AP");
-        }
-        else
-        {
-            xEventGroupSetBits(s_wifi_event_group, WIFI_FAIL_BIT);
-        }
-        wifi_connect_status = 0;
-        ESP_LOGI(TAG, "connect to the AP fail");
-    }
-    else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP)
-    {
-        ip_event_got_ip_t *event = (ip_event_got_ip_t *)event_data;
-        ESP_LOGI(TAG, "got ip:" IPSTR, IP2STR(&event->ip_info.ip));
-        s_retry_num = 0;
-        xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
-        wifi_connect_status = 1;
-    }
-}
-
-
-void wifi_connect()
-{
-
-}
-
-
-// git repo / co tu sie dzieje ?
-// ESP_ERROR_CHECK sprawdza czy dana funkcja zwraca status ESP_OK , sprawdza dokładnie raz
-void connect_wifi(void)
-{
-
-    s_wifi_event_group = xEventGroupCreate();
-
-    // inicjalizacja loopback
-    ESP_ERROR_CHECK(esp_netif_init());
-
-    // 
-    ESP_ERROR_CHECK(esp_event_loop_create_default());
+// Function to initialize Wi-Fi
+static void wifi_init(void) {
+    esp_netif_init();
+    esp_event_loop_create_default();
     esp_netif_create_default_wifi_sta();
 
-    // wifi init
-    wifi_init_config_t df_config = WIFI_INIT_CONFIG_DEFAULT();
-    ESP_ERROR_CHECK(esp_wifi_init(&df_config));
+    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
 
-    // to sprawdza raczej event czy się połączyło czy nie 
-    // esp_event_handler_instance_t instance_any_id;
-    // esp_event_handler_instance_t instance_got_ip;
-    // ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT,
-    //                                                     ESP_EVENT_ANY_ID,
-    //                                                     &event_handler,
-    //                                                     NULL,
-    //                                                     &instance_any_id));
-    // ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT,
-    //                                                     IP_EVENT_STA_GOT_IP,
-    //                                                     &event_handler,
-    //                                                     NULL,
-    //                                                     &instance_got_ip));
-
-    // konfigurowanie wifi
     wifi_config_t wifi_config = {
         .sta = {
-            .ssid = EXAMPLE_ESP_WIFI_SSID,
-            .password = EXAMPLE_ESP_WIFI_PASS,
-            /* Setting a password implies station will connect to all security modes including WEP/WPA.
-             * However these modes are deprecated and not advisable to be used. Incase your Access point
-             * doesn't support WPA2, these mode can be enabled by commenting below line */
-            .threshold.authmode = WIFI_AUTH_WPA2_PSK,
+            .ssid = WIFI_SSID,
+            .password = WIFI_PASS
         },
     };
-    // konfiguracja i start wifi ze sprawdzeniem błędow 
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
-    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
+    ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config));
     ESP_ERROR_CHECK(esp_wifi_start());
-    
-    ESP_LOGI(TAG, "wifi_init_sta finished.");
 
-    /* Waiting until either the connection is established (WIFI_CONNECTED_BIT) or connection failed for the maximum
-     * number of re-tries (WIFI_FAIL_BIT). The bits are set by event_handler() (see above) */
-    EventBits_t bits = xEventGroupWaitBits(s_wifi_event_group,
-                                           WIFI_CONNECTED_BIT | WIFI_FAIL_BIT,
-                                           pdFALSE,
-                                           pdFALSE,
-                                           portMAX_DELAY);
-
-    /* xEventGroupWaitBits() returns the bits before the call returned, hence we can test which event actually
-     * happened. */
-    if (bits & WIFI_CONNECTED_BIT)
-    {
-        ESP_LOGI(TAG, "connected to ap SSID:%s password:%s",
-                 EXAMPLE_ESP_WIFI_SSID, EXAMPLE_ESP_WIFI_PASS);
-    }
-    else if (bits & WIFI_FAIL_BIT)
-    {
-        ESP_LOGI(TAG, "Failed to connect to SSID:%s, password:%s",
-                 EXAMPLE_ESP_WIFI_SSID, EXAMPLE_ESP_WIFI_PASS);
-    }
-    else
-    {
-        ESP_LOGE(TAG, "UNEXPECTED EVENT");
-    }
-    vEventGroupDelete(s_wifi_event_group);
+    // Wait for Wi-Fi connection
+    esp_wifi_connect();
 }
 
+// Function to toggle the LED state
+static esp_err_t toggle_led(httpd_req_t *req) {
+    // Read the current LED state
+    // int led_state = gpio_get_level(LED_GPIO_PIN);
 
+    // Toggle the LED state
+    // gpio_set_level(LED_GPIO_PIN, !led_state);
+    printf("Zmiana stanu leda");
 
-void webui_task()//void *pvParameters)
-{
-    ESP_LOGI(wifi_status_log, "connect to the AP fail");
+    // Respond with the new LED state
+    httpd_resp_send_500(req);
+    return ESP_OK;
 }
 
+// Function to initialize the HTTP server
+static httpd_handle_t start_webserver(void) {
+    httpd_config_t config = HTTPD_DEFAULT_CONFIG();
+    httpd_handle_t server = NULL;
 
+    // Start the HTTP server
+    if (httpd_start(&server, &config) == ESP_OK) {
+        // Register the handler for the "/toggle" URI
+        httpd_uri_t toggle_uri = {
+            .uri       = "/toggle",
+            .method    = HTTP_GET,
+            .handler   = toggle_led,
+            .user_ctx  = NULL
+        };
+        httpd_register_uri_handler(server, &toggle_uri);
+    }
+    return server;
+}
 
-
-
-
-// void webui_task()//void *pvParameters)
-// {
-//     /*
-//     */
-//     printf(" --- WebUI: Webui starts");
-
-//     esp_wifi_init(&config);
-
-//     if (esp_wifi_set_mode(wifi_mode) == ESP_OK) {
-//         printf(" --- WebUI: Wifi OK");
-//     } 
-//     else if (esp_wifi_set_mode(wifi_mode) == ESP_ERR_WIFI_NOT_INIT) {
-//         printf(" --- WebUI: Wifi not initialized");
-//     }
-//     else {
-//         printf(" --- WebUI: Something wrong with initialization");
-//     }
-    
-// }
+void app_main(void) {
+    // Initialize NVS
+    ESP_ERROR_CHECK(nvs_flash_init());
+    // Initialize Wi-Fi
+    wifi_init();
+    // Configure the LED GPIO pin as an output
+    // gpio_pad_select_gpio(LED_GPIO_PIN);
+    // gpio_set_direction(LED_GPIO_PIN, GPIO_MODE_OUTPUT);
+    // Start the web server
+    start_webserver();
+}
