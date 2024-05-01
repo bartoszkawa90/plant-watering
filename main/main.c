@@ -103,8 +103,14 @@ void log_moist_value(void *pvParameters)
 // MAIN APP
 void app_main() {
 
-    webui_task();
+    // Initialize NVS
+    ESP_ERROR_CHECK(nvs_flash_init());
+    // Initialize Wi-Fi
+    wifi_init();
+    // Start web user interface
+    xTaskCreate(start_webserver, "start webserver", 4096, NULL, 5, NULL);
 
+    //   TASKS MOISTURE METER
     // xTaskCreate(moisture_meter_task, "moisture meter task", 2048, NULL, 1, NULL);
     // uint16_t log_moist_value_delay = 1000;
     // xTaskCreate(log_moist_value, "moist meter value", 4096, (void *)&log_moist_value_delay, 2, NULL);

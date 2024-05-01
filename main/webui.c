@@ -52,33 +52,76 @@ static esp_err_t toggle_led(httpd_req_t *req) {
     return ESP_OK;
 }
 
-// Function to initialize the HTTP server
-static httpd_handle_t start_webserver(void) {
+// Function to serve a simple HTML page
+static esp_err_t serve_html(httpd_req_t *req) {
+    const char* resp_str = "<!DOCTYPE html>"
+                           "<html>"
+                           "<head><title>ESP32 Web Server</title></head>"
+                           "<body>"
+                           "<h1>Hello from ESP32!</h1>"
+                           "<p>LED is now: %s</p>"
+                           "<a href=\"/toggle\">Toggle LED</a>"
+                           "</body>"
+                           "</html>";
+    // Read the current LED state
+    // int led_state = gpio_get_level(LED_GPIO_PIN);
+    char* buf;
+    asprintf(&buf, resp_str ? "ON" : "OFF");
+
+    // Send the HTML content
+    httpd_resp_send(req, buf, strlen(buf));
+    free(buf);
+    return ESP_OK;
+}
+
+// Modify the start_webserver function to use serve_html
+static void start_webserver(void *pvParameters) {
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
     httpd_handle_t server = NULL;
 
     // Start the HTTP server
     if (httpd_start(&server, &config) == ESP_OK) {
-        // Register the handler for the "/toggle" URI
+        // Register the handler for the root URI to serve the HTML page
+        httpd_uri_t root_uri = {
+            .uri       = "/",
+            .method    = HTTP_GET,
+            .handler   = serve_html,
+            .user_ctx  = NULL
+        };
+        httpd_register_uri_handler(server, &root_uri);
+
+        // Keep the toggle URI handler
         httpd_uri_t toggle_uri = {
             .uri       = "/toggle",
             .method    = HTTP_GET,
-            .handler   = toggle_led,
+            .handler   = toggle_led, // Keep the existing toggle handler
             .user_ctx  = NULL
         };
         httpd_register_uri_handler(server, &toggle_uri);
     }
-    return server;
+
+    // Delete the task if the server fails to start
+    if (server == NULL) {
+        vTaskDelete(NULL);
+    }
+
+    // The server is now running; keep the task alive
+    while (1) {
+        vTaskDelay(portMAX_DELAY);
+    }
 }
 
-void app_main(void) {
-    // Initialize NVS
-    ESP_ERROR_CHECK(nvs_flash_init());
-    // Initialize Wi-Fi
-    wifi_init();
-    // Configure the LED GPIO pin as an output
-    // gpio_pad_select_gpio(LED_GPIO_PIN);
-    // gpio_set_direction(LED_GPIO_PIN, GPIO_MODE_OUTPUT);
-    // Start the web server
-    start_webserver();
-}
+// void app_main(void) {
+//     // Initialize NVS
+//     ESP_ERROR_CHECK(nvs_flash_init());
+//     // Initialize Wi-Fi
+//     wifi_init();
+//     // Configure the LED GPIO pin as an output
+//     gpio_pad_select_gpio(LED_GPIO_PIN);
+//     gpio_set_direction(LED_GPIO_PIN, GPIO_MODE_OUTPUT);
+
+//     // Create a task to start the web server
+//     xTaskCreate(start_webserver, "start_webserver", 4096, NULL, 5, NULL);
+// }
+
+
