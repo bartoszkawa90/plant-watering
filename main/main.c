@@ -1,12 +1,16 @@
+// standard includes for main
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_system.h"
-#include "esp_log.h"
 #include <driver/adc.h>
 #include <esp_adc_cal.h>
 
+// webui.c
 #include "webui.c"
 
+static const char *TAG_main = "MAIN";
+
+// ACD / moisture measurements
 #define DEFAULT_VREF    1100        // Use adc2_vref_to_gpio() to obtain a better estimate
 #define NO_OF_SAMPLES   64          // Multisampling
 
@@ -88,11 +92,12 @@ void log_moist_value(void *pvParameters)
     uint16_t *time_delay = (uint16_t *)pvParameters;
     while (1){
         if (*time_delay == 0){
-            vTaskDelay(pdMS_TO_TICKS(*time_delay));
+            // vTaskDelay(pdMS_TO_TICKS(*time_delay));
+            vTaskDelay(pdMS_TO_TICKS(3000));
             printf(" --- MAIN APP: Moisture Meter Voltage [mV] %ld with delay: %u\n", MOIST_MEASUREMENT, *time_delay);
         }
         else {
-            vTaskDelay(pdMS_TO_TICKS(1000));
+            vTaskDelay(pdMS_TO_TICKS(3000));
             printf(" --- MAIN APP: Moisture Meter Voltage [mV] %ld with delay: 1000\n", MOIST_MEASUREMENT);
         }
         
@@ -103,16 +108,12 @@ void log_moist_value(void *pvParameters)
 // MAIN APP
 void app_main() {
 
-    // Initialize NVS
-    ESP_ERROR_CHECK(nvs_flash_init());
-    // Initialize Wi-Fi
-    wifi_init();
-    // Start web user interface
-    xTaskCreate(start_webserver, "start webserver", 4096, NULL, 5, NULL);
+    run_webui();
+    // xTaskCreate(run_webui, "Start web Interface", 4096, NULL, 5, NULL);
 
     //   TASKS MOISTURE METER
-    // xTaskCreate(moisture_meter_task, "moisture meter task", 2048, NULL, 1, NULL);
-    // uint16_t log_moist_value_delay = 1000;
-    // xTaskCreate(log_moist_value, "moist meter value", 4096, (void *)&log_moist_value_delay, 2, NULL);
+    xTaskCreate(moisture_meter_task, "moisture meter task", 2048, NULL, 1, NULL);
+    uint16_t log_moist_value_delay = 1000;
+    xTaskCreate(log_moist_value, "moist meter value", 4096, (void *)&log_moist_value_delay, 2, NULL);
 }
 

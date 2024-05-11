@@ -1,13 +1,12 @@
 <!DOCTYPE HTML>
-<html>
-
-<head>
-    <title>ESP32 Web Server</title>
-</head>
-<body>
-    <div class="topnav">
-        <h1>ESP32 WebSocket Server</h1>
-    </div>
-</body>
-
-</html>
+<html><body>
+<h1>ESP32 LED Control</h1>
+<button onclick=\"toggleLED()\">Toggle LED</button>
+<script>
+function toggleLED() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/toggle', true);
+  xhr.send();
+}
+</script>
+</body></html>

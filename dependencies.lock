@@ -1,0 +1,15 @@
+dependencies:
+  idf:
+    component_hash: null
+    source:
+      type: idf
+    version: 5.2.1
+  protocol_examples_common:
+    component_hash: null
+    source:
+      path: /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/examples/common_components/protocol_examples_common
+      type: local
+    version: '*'
+manifest_hash: 7e26a16c9dca897c9aedf2aff638c8661e47a79f2c504526ac7a644ec13616d4
+target: esp32
+version: 1.0.0
