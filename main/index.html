@@ -1,12 +1,73 @@
-<!DOCTYPE HTML>
-<html><body>
-<h1>ESP32 LED Control</h1>
-<button onclick=\"toggleLED()\">Toggle LED</button>
-<script>
-function toggleLED() {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', '/toggle', true);
-  xhr.send();
-}
-</script>
-</body></html>
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="test/css" href="{% static 'app/static/main.css' %}">
+
+    <style> textarea {
+        width: 150px;
+        height: 25px;
+    } </style>
+    <style>header{
+      width: 100%;
+      height: 5vh;
+    }
+    .container{
+      max-width: 120rem;
+      width: 90%;
+      margin: 0 auto;
+    }</style>
+
+    <title>WebApp</title>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+          <div class="container">
+            <a style="color: black;" class="navbar-brand mr-4" href="."><font size="6">Web User Interface</font></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggle">
+              <div class="navbar-nav mr-auto">
+                <a style="color: black;" class="nav-item nav-link" href="{% url 'homepage' %}"><font size="6">Homepage</font></a>
+                <a style="color: black;" class="nav-item nav-link" href="{% url 'documentation' %}"><font size="6">Documentation</font></a>
+              </div>
+              <!-- Navbar Right Side -->
+              <div class="navbar-nav">
+              </div>
+            </div>
+          </div>
+        </nav>
+    </header>
+    <main role="main" class="container">
+        <br><br><br>
+        <h1>ESP32 LED Control</h1>
+        <p id="ledState">LED is OFF</p> <!-- Default text -->
+        <button onclick="toggleLED();">Toggle LED</button>
+        <script>
+        function toggleLED() {
+          var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+              document.getElementById('ledState').innerHTML = xhr.responseText;
+            }
+          };
+          xhr.open('GET', '/toggle', true);
+          xhr.send();
+        }
+        </script>
+    </main>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
