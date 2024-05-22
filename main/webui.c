@@ -20,10 +20,17 @@
 #define WIFI_PASS "wwmz5043"
 #define LED_PIN 2 // GPIO pin dla niebieskiego leda z prawej
 
+//** variables
 static const char *TAG_webui = "WEBUI";
-
 static bool led_state = false;
 static int nr_of_switches = 0;
+static uint16_t MOISTURE_MEASUREMENT = 0;
+static uint16_t SOLAR_VALUE = 0;
+static uint16_t MOISTURE_THRESHOLD = 0;
+static uint16_t SOLAR_THRESHOLD = 0;
+static uint8_t default_watering_period = 5;
+
+//**
 
 /* An HTTP GET handler for the root page */
 esp_err_t get_handler(httpd_req_t *req) {
