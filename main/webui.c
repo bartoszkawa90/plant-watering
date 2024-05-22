@@ -12,6 +12,7 @@
 #include "nvs.h"
 #include "wifi.c"
 
+#include <string.h>
 #include "pages.c"
 
 // Replace with your Wi-Fi credentials
@@ -22,6 +23,7 @@
 static const char *TAG_webui = "WEBUI";
 
 static bool led_state = false;
+static int nr_of_switches = 0;
 
 /* An HTTP GET handler for the root page */
 esp_err_t get_handler(httpd_req_t *req) {
@@ -33,14 +35,21 @@ esp_err_t get_handler(httpd_req_t *req) {
 esp_err_t toggle_handler(httpd_req_t *req) {
     // static bool led_state = false;
     led_state = !led_state;
+    nr_of_switches += 1;
     gpio_set_level(LED_PIN, led_state);
-        char* resp_str;
+        char *resp_str[25];
     if (led_state){
-        resp_str = "ON";
+        strcpy(resp_str, "ON count: ");
+        // resp_str = "ON count: ";
     }
     else{
-        resp_str = "OFF";
+        strcpy(resp_str, "OFF count: ");
+        // resp_str = "OFF count: ";
     }
+    // concatenate number of led switches to string
+    char temp[20];
+    snprintf(temp, sizeof(temp), "%d", nr_of_switches);
+    strncat(resp_str, temp, sizeof(resp_str) - strlen(resp_str) - 1);
     httpd_resp_send(req, resp_str, HTTPD_RESP_USE_STRLEN);
     return ESP_OK;
 }

@@ -1,22 +1,4 @@
-// update led
-// const char *html_page = "<html><body>"
-//                         "<h1>ESP32 LED Control</h1>"
-//                         "<p id=\"ledState\">LED is OFF</p>" // Default text
-//                         "<button onclick=\"toggleLED();\">Toggle LED</button>"
-//                         "<script>"
-//                         "function toggleLED() {"
-//                         "  var xhr = new XMLHttpRequest();"
-//                         "  xhr.onreadystatechange = function() {"
-//                         "    if (xhr.readyState == 4 && xhr.status == 200) {"
-//                         "      document.getElementById('ledState').innerHTML = xhr.responseText;"
-//                         "    }"
-//                         "  };"
-//                         "  xhr.open('GET', '/toggle', true);"
-//                         "  xhr.send();"
-//                         "}"
-//                         "</script>"
-//                         "</body></html>";
-
+// use JS
 const char *html_page = "<!DOCTYPE html>"
 "<html>"
 "<head>"
