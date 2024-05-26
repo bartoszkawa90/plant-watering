@@ -24,7 +24,7 @@
       margin: 0 auto;
     }</style>
 
-    <title>WebApp</title>
+    <title>WebUI</title>
 </head>
 <body>
     <header class="site-header">
@@ -36,7 +36,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarToggle">
               <div class="navbar-nav mr-auto">
-                <a style="color: black;" class="nav-item nav-link" href="{% url 'homepage' %}"><font size="6">Homepage</font></a>
+                <a style="color: black;" class="nav-item nav-link" href="."><font size="6">Homepage</font></a>
                 <a style="color: black;" class="nav-item nav-link" href="./documentation"><font size="6">Documentation</font></a>
               </div>
               <!-- Navbar Right Side -->
@@ -48,10 +48,26 @@
     </header>
     <main role="main" class="container">
         <br><br><br>
-        <h1>ESP32 LED Control</h1>
+        <h1>ESP32  Control</h1>
         <p id="ledState">LED is OFF</p> <!-- Default text -->
         <button onclick="toggleLED();">Toggle LED</button>
-        <canvas id="myChart"></canvas>
+
+        <br><br><br>
+        <a id="moisture_value_label"><font size="5px"> Moisture Value: </font></a>
+        <p id="moisture_value"><font size="4px"> 0.00 </font></p>
+        <a id="moisture_threshold_label"><font size="5px"> Moisture Threshold: </font></a>
+        <p id="moisture_threshold"><font size="4px"> 0.00 </font></p>
+
+        <a id="solar_value_label"><font size="5px"> Solar Value: </font></a>
+        <p id="solar_value"><font size="4px"> 0.00 </font></p>
+        <a id="solar_threshold_label"><font size="5px"> Solar Threshold: </font></a>
+        <p id="solar_threshold"><font size="4px"> 0.00 </font></p>
+
+        <br>
+
+        <p id="pumpLabel">Turn ON/OFF the water pump</p> <!-- Default state is OFF so default button is to Turn pump ON -->
+        <button id="pumpState" onclick="switchPump();">TURN ON</button>
+
         <script>
         function toggleLED() {
           var xhr = new XMLHttpRequest();
@@ -63,43 +79,40 @@
           xhr.open('GET', '/toggle', true);
           xhr.send();
         }
-        const xValues = [50,60,70,80,90,100,110,120,130,140,150];
-        const yValues = [7,8,8,9,9,9,10,11,14,14,15];
-
-        new Chart("myChart", {
-          type: "line",
-          data: {
-            labels: xValues,
-            datasets: [{
-              backgroundColor:"rgba(0,0,255,1.0)",
-              borderColor: "rgba(0,0,255,0.1)",
-              data: yValues
-            }]
-          },
-          options:{...}
-        });
-        const data = {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-          datasets: [{
-              label: 'Monthly Sales',
-              backgroundColor: 'rgb(255, 99, 132)',
-              borderColor: 'rgb(255, 99, 132)',
-              data: [0, 10, 5, 2, 20, 30, 45],
-          }]
-      };
-  
-      // Configuration for the chart
-      const config = {
-          type: 'bar',
-          data: data,
-          options: {}
-      };
-  
-      // Render the chart
-      const myChart = new Chart(
-          document.getElementById('myChart'),
-          config
-      );
+        function switchPump() {
+          var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+              document.getElementById('pumpState').innerHTML = xhr.responseText;
+            }
+          };
+          xhr.open('GET', '/pump', true);
+          xhr.send();
+        }
+        function find_and_send(id, path){
+          var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+              document.getElementById(id).innerHTML = xhr.responseText;
+            }
+          };
+          xhr.open('GET', path, true);
+          xhr.send();
+        }
+        window.onload = function() {
+          find_and_send(id='moisture_threshold', path='/def_moist');
+          find_and_send(id='solar_threshold', path='/def_solar');
+          find_and_send(id='moisture_value', path='/moist_val');
+          find_and_send(id='solar_value', path='/solar_val');
+        };
+        function updateVariables(){
+          find_and_send(id='moisture_threshold', path='/def_moist');
+          find_and_send(id='solar_threshold', path='/def_solar');
+          find_and_send(id='moisture_value', path='/moist_val');
+          find_and_send(id='solar_value', path='/solar_val');
+          
+        };
+        setInterval(updateVariables, 1000);
         </script>
     </main>
     <!-- Optional JavaScript -->
@@ -109,77 +122,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<style>
-  .menu-button {
-    background-color: #175da9; /* Blue background */
-    color: white; /* White text */
-    padding: 8px 8px;
-    border-radius: 5px; /* Rounded corners */
-    position: relative; /* Position relative to contain the absolute subpages */
-    display: inline-block;
-    cursor: pointer; /* Change mouse to pointer on hover */
-    font-weight: bold; /* Bold font */
-    font-family: sans-serif; /* Sans-serif font */
-    font-size: 25px; /* Slightly smaller font size for 'Oferta' */
-  }
-
-  .subpages {
-    display: none; /* Hide subpages by default */
-    position: absolute;
-    border-radius: 5px;
-    left: 0; /* Align subpages with the button */
-    top: 100%; /* Position below the button */
-    background-color: #f9f9f9; /* Light grey background */
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Shadow for depth */
-    min-width: 140px; /* Smaller width for the submenu */
-    z-index: 1; /* Ensure it's on top of other elements */
-  }
-
-  .subpages a {
-    font-size: 18px; /* Smaller font size for submenu items */
-    color: black; /* Black text for links */
-    padding: 8px 12px; /* Smaller padding for submenu items */
-    text-decoration: none; /* No underline */
-    display: block; /* Block-level for stacking */
-  }
-
-  .subpages a:hover {
-    background-color: #175da9; /* Darker blue background on hover */
-  }
-
-  .menu-button:hover .subpages {
-    display: block; /* Show subpages on hover */
-  }
-</style>
-
-<div class="menu-button">
-  Oferta
-  <div class="subpages">
-    <a href="https://nowa.bjftechnologie.pl/?page_id=620">KLEJE POLIOCTANOWINYLOWE</a>
-    <a href="https://nowa.bjftechnologie.pl/?page_id=626">KLEJE POLIURETANOWE</a>
-    <a href="https://nowa.bjftechnologie.pl/?page_id=624">KLEJE PROSZKOWO-MOCZNIKOWE</a>
-    <a href="https://nowa.bjftechnologie.pl/?page_id=622">KLEJE TERMOTOPLIWE</a>
-    <a href="https://nowa.bjftechnologie.pl/?page_id=628">PŁYNY DO OKLEINIAREK</a>
-    <!-- Add more subpages as needed -->
-  </div>
-
-
-
-

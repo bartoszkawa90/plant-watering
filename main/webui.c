@@ -24,21 +24,51 @@
 static const char *TAG_webui = "WEBUI";
 static bool led_state = false;
 static int nr_of_switches = 0;
-static uint16_t MOISTURE_MEASUREMENT = 0;
+static uint32_t MOISTURE_MEASUREMENT = 0;
 static uint16_t SOLAR_VALUE = 0;
 static uint16_t MOISTURE_THRESHOLD = 0;
 static uint16_t SOLAR_THRESHOLD = 0;
+static uint16_t default_moisture_threshold = 2000;
+static uint16_t default_solar_threshold = 10; // ?
+static bool water_pump_state = false;
+
+// additional
 static uint8_t default_watering_period = 5;
 
-//**
 
-/* An HTTP GET handler for the root page */
 esp_err_t get_handler(httpd_req_t *req) {
     httpd_resp_send(req, html_page, HTTPD_RESP_USE_STRLEN);
     return ESP_OK;
 }
 
-/* An HTTP GET handler to toggle the LED */
+esp_err_t def_moist_handler(httpd_req_t *req) {
+    char str[10];
+    int str_len = sprintf(str, "%d", default_moisture_threshold);
+    httpd_resp_send(req, str, HTTPD_RESP_USE_STRLEN);
+    return ESP_OK;
+}
+
+esp_err_t def_solar_handler(httpd_req_t *req) {
+    char str[10];
+    int str_len = sprintf(str, "%d", default_solar_threshold);
+    httpd_resp_send(req, str, HTTPD_RESP_USE_STRLEN);
+    return ESP_OK;
+}
+
+esp_err_t moist_val_handler(httpd_req_t *req) {
+    char str[10];
+    int str_len = sprintf(str, "%ld", MOISTURE_MEASUREMENT);
+    httpd_resp_send(req, str, HTTPD_RESP_USE_STRLEN);
+    return ESP_OK;
+}
+
+esp_err_t solar_val_handler(httpd_req_t *req) {
+    char str[10];
+    int str_len = sprintf(str, "%d", SOLAR_VALUE);
+    httpd_resp_send(req, str, HTTPD_RESP_USE_STRLEN);
+    return ESP_OK;
+}
+
 esp_err_t toggle_handler(httpd_req_t *req) {
     // static bool led_state = false;
     led_state = !led_state;
@@ -61,6 +91,23 @@ esp_err_t toggle_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
+// handler for turning pump on and off
+esp_err_t turn_on_off_pump_handler(httpd_req_t *req) {
+    // static bool led_state = false;
+    water_pump_state = !water_pump_state;
+    // for now pump state steer BLUE LED
+    gpio_set_level(LED_PIN, water_pump_state);
+        char *resp_str[25];
+    if (water_pump_state){
+        strcpy(resp_str, "TURN OFF");
+    }
+    else{
+        strcpy(resp_str, "TURN ON");
+    }
+    httpd_resp_send(req, resp_str, HTTPD_RESP_USE_STRLEN);
+    return ESP_OK;
+}
+
 httpd_uri_t uri_get = {
     .uri       = "/",
     .method    = HTTP_GET,
@@ -76,6 +123,42 @@ httpd_uri_t uri_toggle = {
     .user_ctx  = NULL
 };
 
+// handler to /pump uri
+httpd_uri_t uri_pump = {
+    .uri       = "/pump",
+    .method    = HTTP_GET,
+    .handler   = turn_on_off_pump_handler,
+    .user_ctx  = NULL
+};
+
+httpd_uri_t uri_def_moist = {
+    .uri       = "/def_moist",
+    .method    = HTTP_GET,
+    .handler   = def_moist_handler,
+    .user_ctx  = NULL
+};
+
+httpd_uri_t uri_def_solar = {
+    .uri       = "/def_solar",
+    .method    = HTTP_GET,
+    .handler   = def_solar_handler,
+    .user_ctx  = NULL
+};
+
+httpd_uri_t uri_moist_val = {
+    .uri       = "/moist_val",
+    .method    = HTTP_GET,
+    .handler   = moist_val_handler,
+    .user_ctx  = NULL
+};
+
+httpd_uri_t uri_solar_val = {
+    .uri       = "/solar_val",
+    .method    = HTTP_GET,
+    .handler   = solar_val_handler,
+    .user_ctx  = NULL
+};
+
 // start web server
 httpd_handle_t start_webserver(void) {
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
@@ -84,6 +167,11 @@ httpd_handle_t start_webserver(void) {
     if (httpd_start(&server, &config) == ESP_OK) {
         httpd_register_uri_handler(server, &uri_get);
         httpd_register_uri_handler(server, &uri_toggle);
+        httpd_register_uri_handler(server, &uri_pump);
+        httpd_register_uri_handler(server, &uri_def_moist);
+        httpd_register_uri_handler(server, &uri_def_solar);
+        httpd_register_uri_handler(server, &uri_moist_val);
+        httpd_register_uri_handler(server, &uri_solar_val);
     }
     return server;
 }
@@ -105,8 +193,7 @@ char* load_file(char * filepath){
     return f_buffer;
 }
 
-// void run_webui(void *pvParameters)
-void run_webui()
+void run_webui(void *pvParameters)
 {
     // connect to specific network
     esp_err_t ret = nvs_flash_init();
@@ -120,13 +207,18 @@ void run_webui()
     ESP_ERROR_CHECK(esp_event_loop_create_default());
     example_connect(WIFI_SSID, WIFI_PASS);
 
-    // Initialize the GPIO pin for the LED
+    // gpio init
     esp_rom_gpio_pad_select_gpio(LED_PIN);
     gpio_set_direction(LED_PIN, GPIO_MODE_OUTPUT);
 
-    // Start the webserver
+    // Start webui
     httpd_handle_t server = start_webserver();
     if (server == NULL) {
         ESP_LOGI(TAG_webui, "Failed to start web server");
+    }
+
+    while (1) {
+        // zeby task cos robil
+        vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
