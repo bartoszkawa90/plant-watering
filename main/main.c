@@ -17,18 +17,14 @@ static const char *TAG_main = "MAIN";
 #define NO_OF_SAMPLES   64          // Multisampling
 
 static esp_adc_cal_characteristics_t *adc_chars;
-static const adc_channel_t channel = ADC_CHANNEL_0;     
+static const adc2_channel_t channel = ADC_CHANNEL_0;     
 static const adc_atten_t atten = ADC_ATTEN_DB_12;
-static const adc_unit_t unit = ADC_UNIT_2;
+static const adc_unit_t unit = ADC_UNIT_1;
 // static uint32_t MOISTURE_MEASUREMENT = 0;
 
 
 void moisture_meter_task(void *pvParameters)
 {
-    /*
-        ---
-    */
-
     // adc config
     if (unit == ADC_UNIT_1) {
         adc1_config_width(ADC_WIDTH_BIT_12);
@@ -141,16 +137,16 @@ void app_main() {
 
 
     //   xTask for moist meter
-    xTaskCreate(moisture_meter_task, "moisture meter task", 8192, NULL, 2, NULL);
+    xTaskCreate(moisture_meter_task, "moisture meter task", 4096, NULL, 2, NULL);
 
     //   xTask for solar meter
     // Initialize I2C master
     ESP_ERROR_CHECK(i2c_master_init());
     // Start task to read photodiode value
-    xTaskCreate(read_photodiode_task, "read_photodiode_task", 8192, NULL, 2, NULL);
+    xTaskCreate(read_photodiode_task, "read_photodiode_task", 4096, NULL, 2, NULL);
 
     //   xTask for webui 
-    xTaskCreate(run_webui, "Start web Interface", 8192, NULL, 5, NULL);
+    xTaskCreate(run_webui, "Start web Interface", 4096, NULL, 5, NULL);
 
     // vTaskStartScheduler();
 
