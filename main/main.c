@@ -20,7 +20,6 @@ static esp_adc_cal_characteristics_t *adc_chars;
 static const adc2_channel_t channel = ADC_CHANNEL_0;     
 static const adc_atten_t atten = ADC_ATTEN_DB_12;
 static const adc_unit_t unit = ADC_UNIT_1;
-// static uint32_t MOISTURE_MEASUREMENT = 0;
 
 
 void moisture_meter_task(void *pvParameters)
@@ -50,7 +49,7 @@ void moisture_meter_task(void *pvParameters)
         adc_reading /= NO_OF_SAMPLES;
         // konwersja 
         uint32_t voltage = esp_adc_cal_raw_to_voltage(adc_reading, adc_chars);
-        printf("Raw: %ld\tVoltage: %ldmV\n", adc_reading, voltage);
+        // printf("Raw: %ld\tVoltage: %ldmV\n", adc_reading, voltage);
         MOISTURE_MEASUREMENT = voltage;
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
@@ -117,7 +116,7 @@ void read_photodiode_task(void *pvParameters) {
         } else {
             ESP_LOGE("PHOTODIODE", "I2C read failed");
         }
-
+        
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
@@ -147,8 +146,6 @@ void app_main() {
 
     //   xTask for webui 
     xTaskCreate(run_webui, "Start web Interface", 4096, NULL, 5, NULL);
-
-    // vTaskStartScheduler();
 
     while (1){
         vTaskDelay(pdMS_TO_TICKS(3000));

@@ -25,12 +25,13 @@ static const char *TAG_webui = "WEBUI";
 static bool led_state = false;
 static int nr_of_switches = 0;
 static uint32_t MOISTURE_MEASUREMENT = 0;
-static uint16_t SOLAR_VALUE = 0;
+static uint16_t SOLAR_MEASUREMENT = 0;
 static uint16_t MOISTURE_THRESHOLD = 0;
 static uint16_t SOLAR_THRESHOLD = 0;
 static uint16_t default_moisture_threshold = 2000;
 static uint16_t default_solar_threshold = 10; // ?
 static bool water_pump_state = false;
+static char *mv_unit = " mV ";
 
 // additional
 static uint8_t default_watering_period = 5;
@@ -44,6 +45,7 @@ esp_err_t get_handler(httpd_req_t *req) {
 esp_err_t def_moist_handler(httpd_req_t *req) {
     char str[10];
     int str_len = sprintf(str, "%d", default_moisture_threshold);
+    strcat(str, mv_unit);
     httpd_resp_send(req, str, HTTPD_RESP_USE_STRLEN);
     return ESP_OK;
 }
@@ -51,6 +53,7 @@ esp_err_t def_moist_handler(httpd_req_t *req) {
 esp_err_t def_solar_handler(httpd_req_t *req) {
     char str[10];
     int str_len = sprintf(str, "%d", default_solar_threshold);
+    strcat(str, mv_unit);
     httpd_resp_send(req, str, HTTPD_RESP_USE_STRLEN);
     return ESP_OK;
 }
@@ -58,13 +61,15 @@ esp_err_t def_solar_handler(httpd_req_t *req) {
 esp_err_t moist_val_handler(httpd_req_t *req) {
     char str[10];
     int str_len = sprintf(str, "%ld", MOISTURE_MEASUREMENT);
+    strcat(str, mv_unit);
     httpd_resp_send(req, str, HTTPD_RESP_USE_STRLEN);
     return ESP_OK;
 }
 
 esp_err_t solar_val_handler(httpd_req_t *req) {
     char str[10];
-    int str_len = sprintf(str, "%d", SOLAR_VALUE);
+    int str_len = sprintf(str, "%d", SOLAR_MEASUREMENT);
+    strcat(str, mv_unit);
     httpd_resp_send(req, str, HTTPD_RESP_USE_STRLEN);
     return ESP_OK;
 }
