@@ -14,22 +14,23 @@
 
 #include <string.h>
 #include "pages.c"
+#include "light_sensor.c"
 
 // Replace with your Wi-Fi credentials
 #define WIFI_SSID "Galaxy M213EBB"
 #define WIFI_PASS "wwmz5043"
 #define LED_PIN 2 // GPIO pin dla niebieskiego leda z prawej
+#define PUMP_GPIO 4 // GPIO for pump
 
 //** variables
 static const char *TAG_webui = "WEBUI";
 static bool led_state = false;
 static int nr_of_switches = 0;
 static uint32_t MOISTURE_MEASUREMENT = 0;
-static uint16_t SOLAR_MEASUREMENT = 0;
 static uint16_t MOISTURE_THRESHOLD = 0;
-static uint16_t SOLAR_THRESHOLD = 0;
+// static uint16_t SOLAR_THRESHOLD = 0;
 static uint16_t default_moisture_threshold = 2000;
-static uint16_t default_solar_threshold = 10; // ?
+static uint16_t default_solar_threshold = 9000;
 static bool water_pump_state = false;
 static char *mv_unit = " mV ";
 
@@ -101,7 +102,7 @@ esp_err_t turn_on_off_pump_handler(httpd_req_t *req) {
     // static bool led_state = false;
     water_pump_state = !water_pump_state;
     // for now pump state steer BLUE LED
-    gpio_set_level(LED_PIN, water_pump_state);
+    gpio_set_level(PUMP_GPIO, water_pump_state);
         char *resp_str[25];
     if (water_pump_state){
         strcpy(resp_str, "TURN OFF");
@@ -215,6 +216,8 @@ void run_webui(void *pvParameters)
     // gpio init
     esp_rom_gpio_pad_select_gpio(LED_PIN);
     gpio_set_direction(LED_PIN, GPIO_MODE_OUTPUT);
+    esp_rom_gpio_pad_select_gpio(PUMP_GPIO);
+    gpio_set_direction(PUMP_GPIO, GPIO_MODE_OUTPUT);
 
     // Start webui
     httpd_handle_t server = start_webserver();
@@ -223,7 +226,9 @@ void run_webui(void *pvParameters)
     }
 
     while (1) {
-        // zeby task cos robil
+        int pump_gpio_state = 0;
+        pump_gpio_state = gpio_get_level(4);
+        printf("%s: Current value of GPIO for pump : %d \n", TAG_webui, pump_gpio_state);
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
