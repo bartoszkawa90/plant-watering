@@ -1,0 +1,70 @@
+[1/5] cd /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/build/esp-idf/esptool_py && /Users/bartoszkawa/.espressif/python_env/idf5.2_py3.12_env/bin/python /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/build/partition_table/partition-table.bin /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/build/plant_watering.bin
+plant_watering.bin binary size 0xd1720 bytes. Smallest app partition is 0x100000 bytes. 0x2e8e0 bytes (18%) free.
+[2/5] Performing build step for 'bootloader'
+[1/1] cd /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/build/bootloader/esp-idf/esptool_py && /Users/bartoszkawa/.espressif/python_env/idf5.2_py3.12_env/bin/python /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/build/bootloader/bootloader.bin
+Bootloader binary size 0x6860 bytes. 0x7a0 bytes (7%) free.
+[2/3] cd /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esptool_py && /opt/local/bin/cmake -D IDF_PATH=/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf -D "SERIAL_TOOL=/Users/bartoszkawa/.espressif/python_env/idf5.2_py3.12_env/bin/python;;/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esptool_py/esptool/esptool.py;--chip;esp32" -D "SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args" -D WORKING_DIRECTORY=/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/build -P /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esptool_py/run_serial_tool.cmake
+esptool.py --chip esp32 -p /dev/cu.usbserial-0001 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 40m --flash_size 4MB 0x1000 bootloader/bootloader.bin 0x10000 plant_watering.bin 0x8000 partition_table/partition-table.bin
+esptool.py v4.7.0
+Serial port /dev/cu.usbserial-0001
+Connecting..........
+Chip is ESP32-D0WD-V3 (revision v3.1)
+Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
+Crystal is 40MHz
+MAC: 08:d1:f9:d1:1e:2c
+Uploading stub...
+Running stub...
+Stub running...
+Changing baud rate to 460800
+Changed.
+Configuring flash size...
+Flash will be erased from 0x00001000 to 0x00007fff...
+Flash will be erased from 0x00010000 to 0x000e1fff...
+Flash will be erased from 0x00008000 to 0x00008fff...
+Compressed 26720 bytes to 16360...
+Writing at 0x00001000... (100 %)
+Wrote 26720 bytes (16360 compressed) at 0x00001000 in 0.6 seconds (effective 386.3 kbit/s)...
+Hash of data verified.
+Compressed 857888 bytes to 530713...
+Writing at 0x00010000... (3 %)
+Writing at 0x0001dc98... (6 %)
+Writing at 0x00027e4a... (9 %)
+Writing at 0x0002ddd4... (12 %)
+Writing at 0x00034c99... (15 %)
+Writing at 0x0003f3c9... (18 %)
+Writing at 0x00044c34... (21 %)
+Writing at 0x0004ae97... (24 %)
+Writing at 0x00050c93... (27 %)
+Writing at 0x00056a38... (30 %)
+Writing at 0x0005c678... (33 %)
+Writing at 0x00061baf... (36 %)
+Writing at 0x00066f65... (39 %)
+Writing at 0x0006c419... (42 %)
+Writing at 0x00071798... (45 %)
+Writing at 0x00076e1f... (48 %)
+Writing at 0x0007c56f... (51 %)
+Writing at 0x000824c1... (54 %)
+Writing at 0x00087d13... (57 %)
+Writing at 0x0008d9c5... (60 %)
+Writing at 0x000935ad... (63 %)
+Writing at 0x00098f78... (66 %)
+Writing at 0x0009e952... (69 %)
+Writing at 0x000a4657... (72 %)
+Writing at 0x000aae65... (75 %)
+Writing at 0x000b0fe0... (78 %)
+Writing at 0x000b68b2... (81 %)
+Writing at 0x000c067a... (84 %)
+Writing at 0x000c820e... (87 %)
+Writing at 0x000cdf4a... (90 %)
+Writing at 0x000d3a3a... (93 %)
+Writing at 0x000d9f56... (96 %)
+Writing at 0x000df1e2... (100 %)
+Wrote 857888 bytes (530713 compressed) at 0x00010000 in 12.7 seconds (effective 538.5 kbit/s)...
+Hash of data verified.
+Compressed 3072 bytes to 119...
+Writing at 0x00008000... (100 %)
+Wrote 3072 bytes (119 compressed) at 0x00008000 in 0.0 seconds (effective 981.1 kbit/s)...
+Hash of data verified.
+
+Leaving...
+Hard resetting via RTS pin...

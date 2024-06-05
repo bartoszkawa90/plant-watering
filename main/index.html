@@ -24,7 +24,7 @@
     .container {
       display: grid; 
       align-items: flex-start; 
-      grid-template-columns: 1fr 1fr 3fr;; 
+      grid-template-columns: fr 1fr 3fr;; 
     }
     
     .text, .chart {
@@ -41,13 +41,13 @@
     }
     @media (min-width: 1600px) {
       .chart {
-        width: 100%; 
+        width: 110%; 
       }
     }
 
     @media (min-width: 1750px) {
       .chart {
-        width: 117%;
+        width: 110%;
       }
     }
   </style>
@@ -148,16 +148,18 @@
       </div>
       <div class="chart">
         <br><br><br>
-        <canvas id="myLimitedLineChart" width="400" height="200"></canvas>
+        <canvas id="moistureValueChart" width="400" height="200"></canvas>
+        <br><br>
+        <canvas id="solarValueChart" width="400" height="200"></canvas>
       </div>
     </div>
     <script>
-      var ctx = document.getElementById('myLimitedLineChart').getContext('2d');
+      var ctx = document.getElementById('moistureValueChart').getContext('2d');
       var maxDataPoints = 50;
       var dataPoints = [];
       var timeLabels = [];
   
-      function updateChartData() {
+      function updateMoistureChartData() {
           var valueElement = document.getElementById('moisture_value');
           var value = parseInt(valueElement.textContent.replace('Value: ', ''));
           var currentTime = new Date().toLocaleTimeString();
@@ -170,17 +172,17 @@
               timeLabels.shift();
           }
   
-          myLimitedLineChart.data.datasets[0].data = dataPoints;
-          myLimitedLineChart.data.labels = timeLabels;
-          myLimitedLineChart.update();
+          moistureValueChart.data.datasets[0].data = dataPoints;
+          moistureValueChart.data.labels = timeLabels;
+          moistureValueChart.update();
       }
   
-      var myLimitedLineChart = new Chart(ctx, {
+      var moistureValueChart = new Chart(ctx, {
           type: 'line',
           data: {
               labels: timeLabels,
               datasets: [{
-                  label: 'Dynamic Value',
+                  label: 'Moisture Value',
                   data: dataPoints,
                   fill: true,
                   borderColor: 'rgb(75, 192, 192)',
@@ -195,6 +197,59 @@
               }
           }
       });
+
+
+
+            
+      var ctx = document.getElementById('solarValueChart').getContext('2d');
+      var solarmaxDataPoints = 50;
+      var solardataPoints = [];
+      var solartimeLabels = [];
+  
+      function updateSolarChartData() {
+          var solarValueElement = document.getElementById('solar_value');
+          var solarValue = parseInt(solarValueElement.textContent.replace('Value: ', ''));
+          var currentTime = new Date().toLocaleTimeString();
+  
+          solardataPoints.push(solarValue);
+          solartimeLabels.push(currentTime);
+  
+          if (solardataPoints.length > solarmaxDataPoints) {
+            solardataPoints.shift();
+            solartimeLabels.shift();
+          }
+  
+          solarValueChart.data.datasets[0].data = solardataPoints;
+          solarValueChart.data.labels = solartimeLabels;
+          solarValueChart.update();
+      }
+  
+      var solarValueChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: solartimeLabels,
+              datasets: [{
+                  label: 'Solar Value',
+                  data: solardataPoints,
+                  fill: true,
+                  borderColor: 'rgb(225, 10, 10)',
+                  tension: 0.1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+
+
+
+      setInterval(updateMoistureChartData, 1000);
+      setInterval(updateSolarChartData, 1000);
+
   
       setInterval(updateChartData, 1000);
   </script>

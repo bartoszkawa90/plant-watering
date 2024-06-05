@@ -1,0 +1,320 @@
+[1/11] Performing build step for 'bootloader'
+[1/1] cd /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/build/bootloader/esp-idf/esptool_py && /Users/bartoszkawa/.espressif/python_env/idf5.2_py3.12_env/bin/python /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/build/bootloader/bootloader.bin
+Bootloader binary size 0x6860 bytes. 0x7a0 bytes (7%) free.
+[2/9] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/webui.c.obj
+In file included from /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:17:
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/light_sensor.c: In function 'read_from_ISL29023':
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/light_sensor.c:79:22: warning: unused variable 'cmd' [-Wunused-variable]
+   79 |     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
+      |                      ^~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/light_sensor.c:78:28: warning: unused variable 'sensor_data_l' [-Wunused-variable]
+   78 |     uint8_t sensor_data_h, sensor_data_l;
+      |                            ^~~~~~~~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/light_sensor.c:78:13: warning: unused variable 'sensor_data_h' [-Wunused-variable]
+   78 |     uint8_t sensor_data_h, sensor_data_l;
+      |             ^~~~~~~~~~~~~
+In file included from /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/moisture_sensor.c:4,
+                 from /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:18:
+/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/driver/deprecated/driver/adc.h: At top level:
+/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/driver/deprecated/driver/adc.h:19:2: warning: #warning "legacy adc driver is deprecated, please migrate to use esp_adc/adc_oneshot.h and esp_adc/adc_continuous.h for oneshot mode and continuous mode drivers respectively" [-Wcpp]
+   19 | #warning "legacy adc driver is deprecated, please migrate to use esp_adc/adc_oneshot.h and esp_adc/adc_continuous.h for oneshot mode and continuous mode drivers respectively"
+      |  ^~~~~~~
+In file included from /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/moisture_sensor.c:5:
+/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esp_adc/deprecated/include/esp_adc_cal.h:17:2: warning: #warning "legacy adc calibration driver is deprecated, please migrate to use esp_adc/adc_cali.h and esp_adc/adc_cali_scheme.h" [-Wcpp]
+   17 | #warning "legacy adc calibration driver is deprecated, please migrate to use esp_adc/adc_cali.h and esp_adc/adc_cali_scheme.h"
+      |  ^~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/moisture_sensor.c: In function 'moisture_meter_task':
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/moisture_sensor.c:31:25: warning: unused variable 'val_type' [-Wunused-variable]
+   31 |     esp_adc_cal_value_t val_type = esp_adc_cal_characterize(unit, atten, ADC_WIDTH_BIT_12, DEFAULT_VREF, adc_chars);
+      |                         ^~~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c: In function 'def_moist_handler':
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:48:9: warning: unused variable 'str_len' [-Wunused-variable]
+   48 |     int str_len = sprintf(str, "%d", default_moisture_threshold);
+      |         ^~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c: In function 'def_solar_handler':
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:56:9: warning: unused variable 'str_len' [-Wunused-variable]
+   56 |     int str_len = sprintf(str, "%d", default_solar_threshold);
+      |         ^~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c: In function 'moist_val_handler':
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:64:9: warning: unused variable 'str_len' [-Wunused-variable]
+   64 |     int str_len = sprintf(str, "%ld", MOISTURE_MEASUREMENT);
+      |         ^~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c: In function 'solar_val_handler':
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:72:9: warning: unused variable 'str_len' [-Wunused-variable]
+   72 |     int str_len = sprintf(str, "%d", SOLAR_MEASUREMENT);
+      |         ^~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c: In function 'toggle_handler':
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:84:16: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   84 |         strcpy(resp_str, "ON count: ");
+      |                ^~~~~~~~
+      |                |
+      |                char **
+In file included from /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esp_http_server/include/esp_http_server.h:11,
+                 from /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:7:
+/Users/bartoszkawa/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20230928/xtensa-esp-elf/xtensa-esp-elf/sys-include/string.h:38:18: note: expected 'char * restrict' but argument is of type 'char **'
+   38 | char    *strcpy (char *__restrict, const char *__restrict);
+      |                  ^
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:87:16: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   87 |         strcpy(resp_str, "OFF count: ");
+      |                ^~~~~~~~
+      |                |
+      |                char **
+/Users/bartoszkawa/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20230928/xtensa-esp-elf/xtensa-esp-elf/sys-include/string.h:38:18: note: expected 'char * restrict' but argument is of type 'char **'
+   38 | char    *strcpy (char *__restrict, const char *__restrict);
+      |                  ^
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:92:55: warning: passing argument 1 of 'strlen' from incompatible pointer type [-Wincompatible-pointer-types]
+   92 |     strncat(resp_str, temp, sizeof(resp_str) - strlen(resp_str) - 1);
+      |                                                       ^~~~~~~~
+      |                                                       |
+      |                                                       char **
+/Users/bartoszkawa/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20230928/xtensa-esp-elf/xtensa-esp-elf/sys-include/string.h:41:18: note: expected 'const char *' but argument is of type 'char **'
+   41 | size_t   strlen (const char *);
+      |                  ^~~~~~~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:92:13: warning: passing argument 1 of 'strncat' from incompatible pointer type [-Wincompatible-pointer-types]
+   92 |     strncat(resp_str, temp, sizeof(resp_str) - strlen(resp_str) - 1);
+      |             ^~~~~~~~
+      |             |
+      |             char **
+/Users/bartoszkawa/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20230928/xtensa-esp-elf/xtensa-esp-elf/sys-include/string.h:42:19: note: expected 'char * restrict' but argument is of type 'char **'
+   42 | char    *strncat (char *__restrict, const char *__restrict, size_t);
+      |                   ^
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:93:26: warning: passing argument 2 of 'httpd_resp_send' from incompatible pointer type [-Wincompatible-pointer-types]
+   93 |     httpd_resp_send(req, resp_str, HTTPD_RESP_USE_STRLEN);
+      |                          ^~~~~~~~
+      |                          |
+      |                          char **
+/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esp_http_server/include/esp_http_server.h:1099:55: note: expected 'const char *' but argument is of type 'char **'
+ 1099 | esp_err_t httpd_resp_send(httpd_req_t *r, const char *buf, ssize_t buf_len);
+      |                                           ~~~~~~~~~~~~^~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c: In function 'turn_on_off_pump_handler':
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:104:16: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  104 |         strcpy(resp_str, "TURN OFF");
+      |                ^~~~~~~~
+      |                |
+      |                char **
+/Users/bartoszkawa/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20230928/xtensa-esp-elf/xtensa-esp-elf/sys-include/string.h:38:18: note: expected 'char * restrict' but argument is of type 'char **'
+   38 | char    *strcpy (char *__restrict, const char *__restrict);
+      |                  ^
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:107:16: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  107 |         strcpy(resp_str, "TURN ON");
+      |                ^~~~~~~~
+      |                |
+      |                char **
+/Users/bartoszkawa/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20230928/xtensa-esp-elf/xtensa-esp-elf/sys-include/string.h:38:18: note: expected 'char * restrict' but argument is of type 'char **'
+   38 | char    *strcpy (char *__restrict, const char *__restrict);
+      |                  ^
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:109:26: warning: passing argument 2 of 'httpd_resp_send' from incompatible pointer type [-Wincompatible-pointer-types]
+  109 |     httpd_resp_send(req, resp_str, HTTPD_RESP_USE_STRLEN);
+      |                          ^~~~~~~~
+      |                          |
+      |                          char **
+/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esp_http_server/include/esp_http_server.h:1099:55: note: expected 'const char *' but argument is of type 'char **'
+ 1099 | esp_err_t httpd_resp_send(httpd_req_t *r, const char *buf, ssize_t buf_len);
+      |                                           ~~~~~~~~~~~~^~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c: At top level:
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:38:16: warning: 'default_watering_period' defined but not used [-Wunused-variable]
+   38 | static uint8_t default_watering_period = 5;
+      |                ^~~~~~~~~~~~~~~~~~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:30:17: warning: 'MOISTURE_THRESHOLD' defined but not used [-Wunused-variable]
+   30 | static uint16_t MOISTURE_THRESHOLD = 0;
+      |                 ^~~~~~~~~~~~~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/light_sensor.c:32:18: warning: 'i2c_master_init' defined but not used [-Wunused-function]
+   32 | static esp_err_t i2c_master_init(void)
+      |                  ^~~~~~~~~~~~~~~
+[3/9] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/main.c.obj
+In file included from /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:17,
+                 from /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/main.c:2:
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/light_sensor.c: In function 'read_from_ISL29023':
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/light_sensor.c:79:22: warning: unused variable 'cmd' [-Wunused-variable]
+   79 |     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
+      |                      ^~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/light_sensor.c:78:28: warning: unused variable 'sensor_data_l' [-Wunused-variable]
+   78 |     uint8_t sensor_data_h, sensor_data_l;
+      |                            ^~~~~~~~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/light_sensor.c:78:13: warning: unused variable 'sensor_data_h' [-Wunused-variable]
+   78 |     uint8_t sensor_data_h, sensor_data_l;
+      |             ^~~~~~~~~~~~~
+In file included from /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/moisture_sensor.c:4,
+                 from /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:18:
+/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/driver/deprecated/driver/adc.h: At top level:
+/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/driver/deprecated/driver/adc.h:19:2: warning: #warning "legacy adc driver is deprecated, please migrate to use esp_adc/adc_oneshot.h and esp_adc/adc_continuous.h for oneshot mode and continuous mode drivers respectively" [-Wcpp]
+   19 | #warning "legacy adc driver is deprecated, please migrate to use esp_adc/adc_oneshot.h and esp_adc/adc_continuous.h for oneshot mode and continuous mode drivers respectively"
+      |  ^~~~~~~
+In file included from /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/moisture_sensor.c:5:
+/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esp_adc/deprecated/include/esp_adc_cal.h:17:2: warning: #warning "legacy adc calibration driver is deprecated, please migrate to use esp_adc/adc_cali.h and esp_adc/adc_cali_scheme.h" [-Wcpp]
+   17 | #warning "legacy adc calibration driver is deprecated, please migrate to use esp_adc/adc_cali.h and esp_adc/adc_cali_scheme.h"
+      |  ^~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/moisture_sensor.c: In function 'moisture_meter_task':
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/moisture_sensor.c:31:25: warning: unused variable 'val_type' [-Wunused-variable]
+   31 |     esp_adc_cal_value_t val_type = esp_adc_cal_characterize(unit, atten, ADC_WIDTH_BIT_12, DEFAULT_VREF, adc_chars);
+      |                         ^~~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c: In function 'def_moist_handler':
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:48:9: warning: unused variable 'str_len' [-Wunused-variable]
+   48 |     int str_len = sprintf(str, "%d", default_moisture_threshold);
+      |         ^~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c: In function 'def_solar_handler':
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:56:9: warning: unused variable 'str_len' [-Wunused-variable]
+   56 |     int str_len = sprintf(str, "%d", default_solar_threshold);
+      |         ^~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c: In function 'moist_val_handler':
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:64:9: warning: unused variable 'str_len' [-Wunused-variable]
+   64 |     int str_len = sprintf(str, "%ld", MOISTURE_MEASUREMENT);
+      |         ^~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c: In function 'solar_val_handler':
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:72:9: warning: unused variable 'str_len' [-Wunused-variable]
+   72 |     int str_len = sprintf(str, "%d", SOLAR_MEASUREMENT);
+      |         ^~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c: In function 'toggle_handler':
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:84:16: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   84 |         strcpy(resp_str, "ON count: ");
+      |                ^~~~~~~~
+      |                |
+      |                char **
+In file included from /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esp_http_server/include/esp_http_server.h:11,
+                 from /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:7:
+/Users/bartoszkawa/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20230928/xtensa-esp-elf/xtensa-esp-elf/sys-include/string.h:38:18: note: expected 'char * restrict' but argument is of type 'char **'
+   38 | char    *strcpy (char *__restrict, const char *__restrict);
+      |                  ^
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:87:16: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   87 |         strcpy(resp_str, "OFF count: ");
+      |                ^~~~~~~~
+      |                |
+      |                char **
+/Users/bartoszkawa/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20230928/xtensa-esp-elf/xtensa-esp-elf/sys-include/string.h:38:18: note: expected 'char * restrict' but argument is of type 'char **'
+   38 | char    *strcpy (char *__restrict, const char *__restrict);
+      |                  ^
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:92:55: warning: passing argument 1 of 'strlen' from incompatible pointer type [-Wincompatible-pointer-types]
+   92 |     strncat(resp_str, temp, sizeof(resp_str) - strlen(resp_str) - 1);
+      |                                                       ^~~~~~~~
+      |                                                       |
+      |                                                       char **
+/Users/bartoszkawa/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20230928/xtensa-esp-elf/xtensa-esp-elf/sys-include/string.h:41:18: note: expected 'const char *' but argument is of type 'char **'
+   41 | size_t   strlen (const char *);
+      |                  ^~~~~~~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:92:13: warning: passing argument 1 of 'strncat' from incompatible pointer type [-Wincompatible-pointer-types]
+   92 |     strncat(resp_str, temp, sizeof(resp_str) - strlen(resp_str) - 1);
+      |             ^~~~~~~~
+      |             |
+      |             char **
+/Users/bartoszkawa/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20230928/xtensa-esp-elf/xtensa-esp-elf/sys-include/string.h:42:19: note: expected 'char * restrict' but argument is of type 'char **'
+   42 | char    *strncat (char *__restrict, const char *__restrict, size_t);
+      |                   ^
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:93:26: warning: passing argument 2 of 'httpd_resp_send' from incompatible pointer type [-Wincompatible-pointer-types]
+   93 |     httpd_resp_send(req, resp_str, HTTPD_RESP_USE_STRLEN);
+      |                          ^~~~~~~~
+      |                          |
+      |                          char **
+/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esp_http_server/include/esp_http_server.h:1099:55: note: expected 'const char *' but argument is of type 'char **'
+ 1099 | esp_err_t httpd_resp_send(httpd_req_t *r, const char *buf, ssize_t buf_len);
+      |                                           ~~~~~~~~~~~~^~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c: In function 'turn_on_off_pump_handler':
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:104:16: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  104 |         strcpy(resp_str, "TURN OFF");
+      |                ^~~~~~~~
+      |                |
+      |                char **
+/Users/bartoszkawa/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20230928/xtensa-esp-elf/xtensa-esp-elf/sys-include/string.h:38:18: note: expected 'char * restrict' but argument is of type 'char **'
+   38 | char    *strcpy (char *__restrict, const char *__restrict);
+      |                  ^
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:107:16: warning: passing argument 1 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+  107 |         strcpy(resp_str, "TURN ON");
+      |                ^~~~~~~~
+      |                |
+      |                char **
+/Users/bartoszkawa/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20230928/xtensa-esp-elf/xtensa-esp-elf/sys-include/string.h:38:18: note: expected 'char * restrict' but argument is of type 'char **'
+   38 | char    *strcpy (char *__restrict, const char *__restrict);
+      |                  ^
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:109:26: warning: passing argument 2 of 'httpd_resp_send' from incompatible pointer type [-Wincompatible-pointer-types]
+  109 |     httpd_resp_send(req, resp_str, HTTPD_RESP_USE_STRLEN);
+      |                          ^~~~~~~~
+      |                          |
+      |                          char **
+/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esp_http_server/include/esp_http_server.h:1099:55: note: expected 'const char *' but argument is of type 'char **'
+ 1099 | esp_err_t httpd_resp_send(httpd_req_t *r, const char *buf, ssize_t buf_len);
+      |                                           ~~~~~~~~~~~~^~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/main.c: At top level:
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/main.c:7:20: warning: 'TAG_main' defined but not used [-Wunused-variable]
+    7 | static const char *TAG_main = "MAIN";
+      |                    ^~~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:38:16: warning: 'default_watering_period' defined but not used [-Wunused-variable]
+   38 | static uint8_t default_watering_period = 5;
+      |                ^~~~~~~~~~~~~~~~~~~~~~~
+/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/main/webui.c:30:17: warning: 'MOISTURE_THRESHOLD' defined but not used [-Wunused-variable]
+   30 | static uint16_t MOISTURE_THRESHOLD = 0;
+      |                 ^~~~~~~~~~~~~~~~~~
+[4/9] Linking C static library esp-idf/main/libmain.a
+[5/9] Generating ld/sections.ld
+[6/9] Linking CXX executable plant_watering.elf
+[7/9] Generating binary image from built executable
+esptool.py v4.7.0
+Creating esp32 image...
+Merged 2 ELF sections
+Successfully created esp32 image.
+Generated /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/build/plant_watering.bin
+[8/9] cd /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/build/esp-idf/esptool_py && /Users/bartoszkawa/.espressif/python_env/idf5.2_py3.12_env/bin/python /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/build/partition_table/partition-table.bin /Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/build/plant_watering.bin
+plant_watering.bin binary size 0xd1720 bytes. Smallest app partition is 0x100000 bytes. 0x2e8e0 bytes (18%) free.
+[8/9] cd /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esptool_py && /opt/local/bin/cmake -D IDF_PATH=/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf -D "SERIAL_TOOL=/Users/bartoszkawa/.espressif/python_env/idf5.2_py3.12_env/bin/python;;/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esptool_py/esptool/esptool.py;--chip;esp32" -D "SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args" -D WORKING_DIRECTORY=/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/build -P /Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf/components/esptool_py/run_serial_tool.cmake
+esptool.py --chip esp32 -p /dev/cu.usbserial-0001 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 40m --flash_size 4MB 0x1000 bootloader/bootloader.bin 0x10000 plant_watering.bin 0x8000 partition_table/partition-table.bin
+esptool.py v4.7.0
+Serial port /dev/cu.usbserial-0001
+Connecting..........
+Chip is ESP32-D0WD-V3 (revision v3.1)
+Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
+Crystal is 40MHz
+MAC: 08:d1:f9:d1:1e:2c
+Uploading stub...
+Running stub...
+Stub running...
+Changing baud rate to 460800
+Changed.
+Configuring flash size...
+Flash will be erased from 0x00001000 to 0x00007fff...
+Flash will be erased from 0x00010000 to 0x000e1fff...
+Flash will be erased from 0x00008000 to 0x00008fff...
+Compressed 26720 bytes to 16360...
+Writing at 0x00001000... (100 %)
+Wrote 26720 bytes (16360 compressed) at 0x00001000 in 0.6 seconds (effective 386.0 kbit/s)...
+Hash of data verified.
+Compressed 857888 bytes to 530720...
+Writing at 0x00010000... (3 %)
+Writing at 0x0001dc90... (6 %)
+Writing at 0x00027e41... (9 %)
+Writing at 0x0002ddc4... (12 %)
+Writing at 0x00034c91... (15 %)
+Writing at 0x0003f3c5... (18 %)
+Writing at 0x00044c2e... (21 %)
+Writing at 0x0004ae93... (24 %)
+Writing at 0x00050c8f... (27 %)
+Writing at 0x00056a34... (30 %)
+Writing at 0x0005c674... (33 %)
+Writing at 0x00061baa... (36 %)
+Writing at 0x00066f62... (39 %)
+Writing at 0x0006c415... (42 %)
+Writing at 0x00071794... (45 %)
+Writing at 0x00076e1b... (48 %)
+Writing at 0x0007c56b... (51 %)
+Writing at 0x000824ba... (54 %)
+Writing at 0x00087d0e... (57 %)
+Writing at 0x0008d9c0... (60 %)
+Writing at 0x000935a9... (63 %)
+Writing at 0x00098f73... (66 %)
+Writing at 0x0009e945... (69 %)
+Writing at 0x000a4654... (72 %)
+Writing at 0x000aae5f... (75 %)
+Writing at 0x000b0fdc... (78 %)
+Writing at 0x000b68af... (81 %)
+Writing at 0x000c062b... (84 %)
+Writing at 0x000c8209... (87 %)
+Writing at 0x000cdf45... (90 %)
+Writing at 0x000d3a35... (93 %)
+Writing at 0x000d9f54... (96 %)
+Writing at 0x000df1dd... (100 %)
+Wrote 857888 bytes (530720 compressed) at 0x00010000 in 12.7 seconds (effective 538.9 kbit/s)...
+Hash of data verified.
+Compressed 3072 bytes to 119...
+Writing at 0x00008000... (100 %)
+Wrote 3072 bytes (119 compressed) at 0x00008000 in 0.0 seconds (effective 833.2 kbit/s)...
+Hash of data verified.
+
+Leaving...
+Hard resetting via RTS pin...

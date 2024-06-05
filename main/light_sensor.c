@@ -89,16 +89,15 @@ uint16_t read_from_ISL29023() {
     printf("Light Intensity LBS: %d \n", lsb);
     printf("Light Intensity MBS: %d \n", msb);
 
-    // uint16_t whole_data = ((uint16_t)msb << 8 | lsb);
-    // // Ecal / counting value from datasheet equation
-    // uint16_t light_intensity = (whole_data * 16000/65536);
-    return ((uint16_t)msb << 8 | lsb);
+    uint16_t whole_data = ((uint16_t)msb << 8 | lsb);
+    // Ecal / counting value from datasheet equation
+    uint16_t light_intensity = (whole_data * 16000/65536);
+    return light_intensity;
 }
 
 
 // Task to continuously read sensor data
 void read_light_sensor_task(void *pvParameters) {
-    i2c_master_init();
     while (1) {
         SOLAR_MEASUREMENT = read_from_ISL29023();
         printf("Light Intensity: %d \n", SOLAR_MEASUREMENT);

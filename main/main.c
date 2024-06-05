@@ -13,6 +13,7 @@ void app_main() {
     xTaskCreate(moisture_meter_task, "moisture meter task", 4096, NULL, 2, NULL);
 
     // Start task to read photodiode value
+    i2c_master_init();
     xTaskCreate(&read_light_sensor_task, "read_light_sensor_task", 4096, NULL, 5, NULL);
 
     //   xTask for webui 
