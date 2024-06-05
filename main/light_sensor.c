@@ -1,8 +1,6 @@
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-// #include "esp_system.h"
-#include <driver/adc.h>
 #include "driver/i2c.h"
 
 #define COMMAND1_REG 0x00
@@ -76,8 +74,6 @@ static esp_err_t light_sens_reg_write_and_check(uint8_t reg_addr, uint8_t data){
 }
 
 
-
-// to jest pod sensor pmp006(temperatury) pod niego address i rejestr 0xff i to powinno nam odczytać 0x67
 uint16_t read_from_ISL29023() {
     uint8_t sensor_data_h, sensor_data_l;
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
@@ -93,23 +89,19 @@ uint16_t read_from_ISL29023() {
     printf("Light Intensity LBS: %d \n", lsb);
     printf("Light Intensity MBS: %d \n", msb);
 
-    uint16_t whole_data = ((uint16_t)msb << 8 | lsb);
-    printf("Light Intensity AAA: %d \n", whole_data);
-
-    // Ecal / counting value from datasheet equation
-    uint16_t light_intensity = (whole_data * 16000/65536);
-    printf("Light Intensity FINISH: %d \n", light_intensity);
-
-    return light_intensity;
+    // uint16_t whole_data = ((uint16_t)msb << 8 | lsb);
+    // // Ecal / counting value from datasheet equation
+    // uint16_t light_intensity = (whole_data * 16000/65536);
+    return ((uint16_t)msb << 8 | lsb);
 }
-
 
 
 // Task to continuously read sensor data
 void read_light_sensor_task(void *pvParameters) {
+    i2c_master_init();
     while (1) {
         SOLAR_MEASUREMENT = read_from_ISL29023();
         printf("Light Intensity: %d \n", SOLAR_MEASUREMENT);
-        vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay for a second
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
 }

@@ -1,7 +1,7 @@
 // serwowanie samego html w formie stringa
 #include <stdio.h>
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
+// #include "freertos/FreeRTOS.h"
+// #include "freertos/task.h"
 #include "esp_wifi.h"
 #include "esp_log.h"
 #include "esp_http_server.h"
@@ -15,6 +15,7 @@
 #include <string.h>
 #include "pages.c"
 #include "light_sensor.c"
+#include "moisture_sensor.c"
 
 // Replace with your Wi-Fi credentials
 #define WIFI_SSID "Galaxy M213EBB"
@@ -26,7 +27,6 @@
 static const char *TAG_webui = "WEBUI";
 static bool led_state = false;
 static int nr_of_switches = 0;
-static uint32_t MOISTURE_MEASUREMENT = 0;
 static uint16_t MOISTURE_THRESHOLD = 0;
 // static uint16_t SOLAR_THRESHOLD = 0;
 static uint16_t default_moisture_threshold = 2000;
@@ -76,18 +76,15 @@ esp_err_t solar_val_handler(httpd_req_t *req) {
 }
 
 esp_err_t toggle_handler(httpd_req_t *req) {
-    // static bool led_state = false;
     led_state = !led_state;
     nr_of_switches += 1;
     gpio_set_level(LED_PIN, led_state);
         char *resp_str[25];
     if (led_state){
         strcpy(resp_str, "ON count: ");
-        // resp_str = "ON count: ";
     }
     else{
         strcpy(resp_str, "OFF count: ");
-        // resp_str = "OFF count: ";
     }
     // concatenate number of led switches to string
     char temp[20];
@@ -99,9 +96,7 @@ esp_err_t toggle_handler(httpd_req_t *req) {
 
 // handler for turning pump on and off
 esp_err_t turn_on_off_pump_handler(httpd_req_t *req) {
-    // static bool led_state = false;
     water_pump_state = !water_pump_state;
-    // for now pump state steer BLUE LED
     gpio_set_level(PUMP_GPIO, water_pump_state);
         char *resp_str[25];
     if (water_pump_state){
@@ -121,7 +116,6 @@ httpd_uri_t uri_get = {
     .user_ctx  = NULL
 };
 
-// handler to /toggle uri
 httpd_uri_t uri_toggle = {
     .uri       = "/toggle",
     .method    = HTTP_GET,
@@ -129,7 +123,6 @@ httpd_uri_t uri_toggle = {
     .user_ctx  = NULL
 };
 
-// handler to /pump uri
 httpd_uri_t uri_pump = {
     .uri       = "/pump",
     .method    = HTTP_GET,
@@ -182,22 +175,6 @@ httpd_handle_t start_webserver(void) {
     return server;
 }
 
-// ADDITIONAL FUNCTIONS
-char* load_file(char * filepath){
-    // load file to buffer
-    ESP_LOGI(TAG_webui, "Start to read file");
-    FILE *file = fopen(filepath, "r");
-    if (file == NULL){
-        ESP_LOGE(TAG_webui, "Cant open file");
-    }
-    int MAX_LEN = 5000;
-    char f_buffer[MAX_LEN];
-    while (fgets(f_buffer, MAX_LEN, file)){
-        printf("%s", f_buffer);
-    }
-
-    return f_buffer;
-}
 
 void run_webui(void *pvParameters)
 {
@@ -226,9 +203,9 @@ void run_webui(void *pvParameters)
     }
 
     while (1) {
-        int pump_gpio_state = 0;
-        pump_gpio_state = gpio_get_level(4);
-        printf("%s: Current value of GPIO for pump : %d \n", TAG_webui, pump_gpio_state);
+        // int pump_gpio_state = 0;
+        // pump_gpio_state = gpio_get_level(4);
+        // printf("%s: Current value of GPIO for pump : %d \n", TAG_webui, pump_gpio_state);
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
