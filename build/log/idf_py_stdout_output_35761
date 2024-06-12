@@ -1,0 +1,463 @@
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:7172
+load:0x40078000,len:15540
+load:0x40080400,len:4
+ho 8 tail 4 room 4
+load:0x40080404,len:3904
+entry 0x40080640
+[0;32mI (31) boot: ESP-IDF v5.2.1 2nd stage bootloader[0m
+[0;32mI (31) boot: compile time Jun 12 2024 20:23:26[0m
+[0;32mI (31) boot: Multicore bootloader[0m
+[0;32mI (35) boot: chip revision: v3.1[0m
+[0;32mI (39) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (44) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (48) boot.esp32: SPI Flash Size : 4MB[0m
+[0;32mI (53) boot: Enabling RNG early entropy source...[0m
+[0;32mI (58) boot: Partition Table:[0m
+[0;32mI (62) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (69) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (77) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (84) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (92) boot:  3 storage          Unknown data     01 82 00110000 000f0000[0m
+[0;32mI (99) boot: End of partition table[0m
+[0;32mI (103) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=290f0h (168176) map[0m
+[0;32mI (169) esp_image: segment 1: paddr=00039118 vaddr=3ffb0000 size=03c9ch ( 15516) load[0m
+[0;32mI (175) esp_image: segment 2: paddr=0003cdbc vaddr=40080000 size=0325ch ( 12892) load[0m
+[0;32mI (181) esp_image: segment 3: paddr=00040020 vaddr=400d0020 size=8dd00h (580864) map[0m
+[0;32mI (383) esp_image: segment 4: paddr=000cdd28 vaddr=4008325c size=147dch ( 83932) load[0m
+[0;32mI (428) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (428) boot: Disabling RNG early entropy source...[0m
+[0;32mI (439) cpu_start: Multicore app[0m
+[0;32mI (448) cpu_start: Pro cpu start user code[0m
+[0;32mI (448) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (448) cpu_start: Application information:[0m
+[0;32mI (451) cpu_start: Project name:     plant_watering[0m
+[0;32mI (457) cpu_start: App version:      d3b6b8a-dirty[0m
+[0;32mI (462) cpu_start: Compile time:     Jun 12 2024 21:33:32[0m
+[0;32mI (468) cpu_start: ELF file SHA256:  30ed4a422...[0m
+[0;32mI (474) cpu_start: ESP-IDF:          v5.2.1[0m
+[0;32mI (478) cpu_start: Min chip rev:     v0.0[0m
+[0;32mI (483) cpu_start: Max chip rev:     v3.99 [0m
+[0;32mI (488) cpu_start: Chip rev:         v3.1[0m
+[0;32mI (493) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (500) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (506) heap_init: At 3FFB7DF0 len 00028210 (160 KiB): DRAM[0m
+[0;32mI (512) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (518) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (525) heap_init: At 40097A38 len 000085C8 (33 KiB): IRAM[0m
+[0;32mI (533) spi_flash: detected chip: generic[0m
+[0;32mI (536) spi_flash: flash io: dio[0m
+[0;33mW (540) i2c: This driver is an old driver, please migrate your application code to adapt `driver/i2c_master.h`[0m
+[0;33mW (550) ADC: legacy driver is deprecated, please migrate to `esp_adc/adc_oneshot.h`[0m
+[0;32mI (559) main_task: Started on CPU0[0m
+[0;32mI (569) main_task: Calling app_main()[0m
+Check register 0, returned value: 160, expected value 160 
+Check register 1, returned value: 1, expected value 1 
+Light Intensity LBS: 79, MSB: 0 
+I (599) wifi:wifi driver task: 3ffc2f6c, prio:23, stack:6656, core=0
+I (599) wifi:wifi firmware version: a9f5b59
+I (599) wifi:wifi certification version: v7.0
+I (599) wifi:config NVS flash: enabled
+I (599) wifi:config nano formating: disabled
+I (609) wifi:Init data frame dynamic rx buffer num: 32
+I (609) wifi:Init static rx mgmt buffer num: 5
+I (619) wifi:Init management short buffer num: 32
+I (619) wifi:Init dynamic tx buffer num: 32
+I (619) wifi:Init static rx buffer size: 1600
+I (629) wifi:Init static rx buffer num: 10
+I (629) wifi:Init dynamic rx buffer num: 32
+[0;32mI (639) wifi_init: rx ba win: 6[0m
+[0;32mI (639) wifi_init: tcpip mbox: 32[0m
+[0;32mI (639) wifi_init: udp mbox: 6[0m
+[0;32mI (649) wifi_init: tcp mbox: 6[0m
+[0;32mI (649) wifi_init: tcp tx win: 5760[0m
+[0;32mI (649) wifi_init: tcp rx win: 5760[0m
+[0;32mI (659) wifi_init: tcp mss: 1440[0m
+[0;32mI (659) wifi_init: WiFi RAM OP enabled[0m[0;32mI (669) wifi_init: WiFi RX IRAM OP enabled[0m
+MAIN: Moisture: 3145 mV	 
+[0;32mI (669) WIFI: Connecting to Galaxy M213EBB...[0m
+[0;32mI (679) phy_init: phy_version 4791,2c4672b,Dec 20 2023,16:06:06[0m
+MAIN: Light Intensity: 19 Lux	 
+I (779) wifi:mode : sta (08:d1:f9:d1:1e:2c)
+I (779) wifi:enable tsf
+[0;32mI (779) WIFI: Waiting for IP[0m
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+I (1389) wifi:new:<6,0>, old:<1,0>, ap:<255,255>, sta:<6,0>, prof:1
+Check register 0, returned value: 160, expected value 160 
+Check register 1, returned value: 1, expected value 1 
+Light Intensity LBS: 79, MSB: 0 
+I (1649) wifi:state: init -> auth (b0)
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+I (1649) wifi:state: auth -> init (1c0)
+I (1659) wifi:new:<6,0>, old:<6,0>, ap:<255,255>, sta:<6,0>, prof:1
+[0;32mI (1659) WIFI: Wi-Fi disconnected, trying to reconnect...[0m
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+Check register 0, returned value: 160, expected value 160 
+Check register 1, returned value: 1, expected value 1 
+Light Intensity LBS: 77, MSB: 0 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 18 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 18 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 18 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 18 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 18 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 18 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 18 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 18 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 18 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 18 Lux	 
+Check register 0, returned value: 160, expected value 160 
+Check register 1, returned value: 1, expected value 1 
+Light Intensity LBS: 83, MSB: 0 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+[0;32mI (4079) WIFI: Wi-Fi disconnected, trying to reconnect...[0m
+I (4089) wifi:new:<6,0>, old:<6,0>, ap:<255,255>, sta:<6,0>, prof:1
+I (4089) wifi:state: init -> auth (b0)
+I (4099) wifi:state: auth -> assoc (0)
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+I (4199) wifi:state: assoc -> run (10)
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+I (4249) wifi:connected with Galaxy M213EBB, aid = 7, channel 6, BW20, bssid = 5a:88:2a:92:67:10
+I (4249) wifi:security: WPA2-PSK, phy: bgn, rssi: -40
+I (4259) wifi:pm start, type: 1
+
+I (4259) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
+I (4279) wifi:<ba-add>idx:0 (ifx:0, 5a:88:2a:92:67:10), tid:0, ssn:4, winSize:64
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+I (4449) wifi:dp: 2, bi: 102400, li: 4, scale listen interval from 307200 us to 409600 us
+I (4449) wifi:AP's beacon interval = 102400 us, DTIM period = 2
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+Check register 0, returned value: 160, expected value 160 
+Check register 1, returned value: 1, expected value 1 
+Light Intensity LBS: 83, MSB: 0 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+[0;32mI (5269) esp_netif_handlers: sta ip: 192.168.245.237, mask: 255.255.255.0, gw: 192.168.245.111[0m
+[0;32mI (5269) WIFI: Got IP eent![
+[0;32mI (5269) WIFI: Connected to Galaxy M213EBB[0m
+[0;32mI (5269) WIFI: IPv4 address: 192.168.245.237[0m
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+Check register 0, returned value: 160, expected value 160 
+Check register 1, returned value: 1, expected value 1 
+Light Intensity LBS: 85, MSB: 0 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+I (6099) wifi:<ba-add>idx:1 (ifx:0, 5a:88:2a:92:67:10), tid:6, ssn:2, winSize:64
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+Check register 0, returned value: 160, expected value 160 
+Check register 1, returned value: 1, expected value 1 
+Light Intensity LBS: 84, MSB: 0 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+Check register 0, returned value: 160, expected value 160 
+Check register 1, returned value: 1, expected value 1 
+Light Intensity LBS: 84, MSB: 0 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+Check register 0, returned value: 160, expected value 160 
+Check register 1, returned value: 1, expected value 1 
+Light Intensity LBS: 84, MSB: 0 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+Check register 0, returned value: 160, expected value 160 
+Check register 1, returned value: 1, expected value 1 
+Light Intensity LBS: 85, MSB: 0 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+Check register 0, returned value: 160, expected value 160 
+Check register 1, returned value: 1, expected value 1 
+Light Intensity LBS: 85, MSB: 0 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+Check register 0, returned value: 160, expected value 160 
+Check register 1, returned value: 1, expected value 1 
+Light Intensity LBS: 85, MSB: 0 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 20 Lux	 
+Check register 0, returned value: 160, expected value 160 
+Check register 1, returned value: 1, expected value 1 
+Light Intensity LBS: 80, MSB: 0 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+���������������������������������������������������������������� Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+Check register 0, returned value: 160, expected value 160 
+Check register 1, returned value: 1, expected value 1 
+Light Intensity LBS: 78, MSB: 0 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+Check register 0, returned value: 160, expected value 160 
+Check register 1, returned value: 1, expected value 1 
+Light Intensity LBS: 78, MSB: 0 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+Check register 0, returned value: 160, expected value 160 
+Check register 1, returned value: 1, expected value 1 
+Light Intensity LBS: 78, MSB: 0 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 
+MAIN: Moisture: 3145 mV	 
+MAIN: Light Intensity: 19 Lux	 

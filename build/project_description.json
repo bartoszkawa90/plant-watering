@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "plant_watering",
-    "project_version":    "71a34fc-dirty",
+    "project_version":    "d3b6b8a-dirty",
     "project_path":       "/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering",
     "idf_path":           "/Users/bartoszkawa/Desktop/astudia/Sensory/esp/esp-idf",
     "build_dir":          "/Users/bartoszkawa/Desktop/astudia/Sensory/plant-watering/build",
