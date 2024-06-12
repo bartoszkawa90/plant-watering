@@ -3,6 +3,7 @@
 #include "freertos/task.h"
 #include "driver/i2c.h"
 
+// REGISTER MAP
 #define COMMAND1_REG 0x00
 #define COMMAND2_REG 0x01
 #define DATA_LSB_REG 0x02
@@ -13,6 +14,7 @@
 #define INT_HT_MSB_REG 0x07
 #define TEST_REG 0x08
 
+// I2C VARIABLES
 #define I2C_MASTER_SCL_IO    22    // GPIO number for I2C master clock
 #define I2C_MASTER_SDA_IO    21    // GPIO number for I2C master data
 #define I2C_MASTER_NUM       I2C_NUM_0 // I2C port number for master dev
@@ -26,9 +28,7 @@
 
 static uint16_t SOLAR_MEASUREMENT = 0;
 
-
-
-
+// i2c master init
 static esp_err_t i2c_master_init(void)
 {
     int i2c_master_port = I2C_MASTER_NUM;
@@ -47,13 +47,13 @@ static esp_err_t i2c_master_init(void)
     return i2c_driver_install(i2c_master_port, conf.mode, 0, 0, 0);
 }
 
-
+// function to read register
 static esp_err_t light_sens_register_read(uint8_t reg_addr, uint8_t *data, size_t len)
 {
     return i2c_master_write_read_device(I2C_MASTER_NUM, ISL29023_SENSOR_ADDR, &reg_addr, 1, data, len, 1000);
 }
 
-
+// function to write register
 static esp_err_t light_sens_register_write_byte(uint8_t reg_addr, uint8_t data)
 {
     int ret;
@@ -64,6 +64,7 @@ static esp_err_t light_sens_register_write_byte(uint8_t reg_addr, uint8_t data)
     return ret;
 }
 
+// read regiter value and check if it is correct
 static esp_err_t light_sens_reg_write_and_check(uint8_t reg_addr, uint8_t data){
     light_sens_register_write_byte(reg_addr, data);
     uint8_t check = 0;
@@ -73,7 +74,7 @@ static esp_err_t light_sens_reg_write_and_check(uint8_t reg_addr, uint8_t data){
     return ret;
 }
 
-
+// function to read specific light intensity values
 uint16_t read_from_ISL29023() {
     uint8_t sensor_data_h, sensor_data_l;
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
@@ -86,9 +87,9 @@ uint16_t read_from_ISL29023() {
     light_sens_register_read(DATA_LSB_REG, &lsb, 1);
     light_sens_register_read(DATA_MSB_REG, &msb, 1);
 
-    printf("Light Intensity LBS: %d \n", lsb);
-    printf("Light Intensity MBS: %d \n", msb);
+    printf("Light Intensity LBS: %d, MSB: %d \n", lsb, msb);
 
+    // convert data from LSB and MSB to 
     uint16_t whole_data = ((uint16_t)msb << 8 | lsb);
     // Ecal / counting value from datasheet equation
     uint16_t light_intensity = (whole_data * 16000/65536);
@@ -100,7 +101,6 @@ uint16_t read_from_ISL29023() {
 void read_light_sensor_task(void *pvParameters) {
     while (1) {
         SOLAR_MEASUREMENT = read_from_ISL29023();
-        printf("Light Intensity: %d \n", SOLAR_MEASUREMENT);
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        vTaskDelay(100);
     }
 }

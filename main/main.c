@@ -1,12 +1,7 @@
-// webui
 #include "webui.c"
-
-// light sensor
-// #include "light_sensor.c"
 
 static const char *TAG_main = "MAIN";
 
-    
 // MAIN APP
 void app_main() {
     //   xTask for moist meter
@@ -19,8 +14,9 @@ void app_main() {
     //   xTask for webui 
     xTaskCreate(run_webui, "Start web Interface", 4096, NULL, 5, NULL);
 
-    // while (1){
-    //     vTaskDelay(pdMS_TO_TICKS(3000));
-    //     printf("Moisture: %ld mV\t \n", MOISTURE_MEASUREMENT);
-    // }
+    while (1){
+        vTaskDelay(pdMS_TO_TICKS(100));
+        printf("%s: Moisture: %ld mV\t \n",TAG_main, MOISTURE_MEASUREMENT);
+        printf("%s: Light Intensity: %d Lux\t \n", TAG_main, SOLAR_MEASUREMENT);
+    }
 }

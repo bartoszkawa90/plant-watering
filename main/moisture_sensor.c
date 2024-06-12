@@ -5,7 +5,7 @@
 #include <esp_adc_cal.h>
 
 
-// ACD / moisture measurements
+// ACD / moisture measurements valiables
 #define DEFAULT_VREF    1100
 #define NO_OF_SAMPLES   64          
 
@@ -30,6 +30,7 @@ void moisture_meter_task(void *pvParameters)
     adc_chars = calloc(1, sizeof(esp_adc_cal_characteristics_t));
     esp_adc_cal_value_t val_type = esp_adc_cal_characterize(unit, atten, ADC_WIDTH_BIT_12, DEFAULT_VREF, adc_chars);
 
+    // read values
     while (1) {
         uint32_t adc_reading = 0;
         for (int i = 0; i < NO_OF_SAMPLES; i++) {
@@ -42,10 +43,9 @@ void moisture_meter_task(void *pvParameters)
             }
         }
         adc_reading /= NO_OF_SAMPLES;
-        // konwersja 
+        // convert values to voltage
         uint32_t voltage = esp_adc_cal_raw_to_voltage(adc_reading, adc_chars);
         MOISTURE_MEASUREMENT = voltage;
-        printf("Moisture: %ld mV\t \n", MOISTURE_MEASUREMENT);
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 }

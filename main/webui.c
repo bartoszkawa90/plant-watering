@@ -17,7 +17,8 @@
 #include "light_sensor.c"
 #include "moisture_sensor.c"
 
-// Replace with your Wi-Fi credentials
+// Replace WIFI_SSID and WIFI_PASS with SSID and Password of your network
+// TODO change 
 #define WIFI_SSID "Galaxy M213EBB"
 #define WIFI_PASS "wwmz5043"
 #define LED_PIN 2 // GPIO pin dla niebieskiego leda z prawej
@@ -27,12 +28,11 @@
 static const char *TAG_webui = "WEBUI";
 static bool led_state = false;
 static int nr_of_switches = 0;
-static uint16_t MOISTURE_THRESHOLD = 0;
-// static uint16_t SOLAR_THRESHOLD = 0;
-static uint16_t default_moisture_threshold = 2000;
-static uint16_t default_solar_threshold = 2000;
+static uint16_t MOISTURE_THRESHOLD = 2000;
+static uint16_t SOLAR_THRESHOLD = 2000;
 static bool water_pump_state = false;
 static char *mv_unit = " mV ";
+static char *lux_unit = " lux ";
 
 // additional
 static uint8_t default_watering_period = 5;
@@ -45,7 +45,7 @@ esp_err_t get_handler(httpd_req_t *req) {
 
 esp_err_t def_moist_handler(httpd_req_t *req) {
     char str[10];
-    int str_len = sprintf(str, "%d", default_moisture_threshold);
+    int str_len = sprintf(str, "%d", MOISTURE_THRESHOLD);
     strcat(str, mv_unit);
     httpd_resp_send(req, str, HTTPD_RESP_USE_STRLEN);
     return ESP_OK;
@@ -53,8 +53,8 @@ esp_err_t def_moist_handler(httpd_req_t *req) {
 
 esp_err_t def_solar_handler(httpd_req_t *req) {
     char str[10];
-    int str_len = sprintf(str, "%d", default_solar_threshold);
-    strcat(str, mv_unit);
+    int str_len = sprintf(str, "%d", SOLAR_THRESHOLD);
+    strcat(str, lux_unit);
     httpd_resp_send(req, str, HTTPD_RESP_USE_STRLEN);
     return ESP_OK;
 }
@@ -70,11 +70,12 @@ esp_err_t moist_val_handler(httpd_req_t *req) {
 esp_err_t solar_val_handler(httpd_req_t *req) {
     char str[10];
     int str_len = sprintf(str, "%d", SOLAR_MEASUREMENT);
-    strcat(str, mv_unit);
+    strcat(str, lux_unit);
     httpd_resp_send(req, str, HTTPD_RESP_USE_STRLEN);
     return ESP_OK;
 }
 
+// handler to toggle blue led to check if webui responds
 esp_err_t toggle_handler(httpd_req_t *req) {
     led_state = !led_state;
     nr_of_switches += 1;
@@ -98,8 +99,7 @@ esp_err_t toggle_handler(httpd_req_t *req) {
 esp_err_t turn_on_off_pump_handler(httpd_req_t *req) {
     water_pump_state = !water_pump_state;
     gpio_set_level(PUMP_GPIO, water_pump_state);
-    printf(" --- TURN ON/OFF PUMP --- : expected state : %d returned state : %d", water_pump_state, gpio_get_level(PUMP_GPIO));
-        char *resp_str[25];
+    char *resp_str[25];
     if (water_pump_state){
         strcpy(resp_str, "TURN OFF");
     }
@@ -107,6 +107,11 @@ esp_err_t turn_on_off_pump_handler(httpd_req_t *req) {
         strcpy(resp_str, "TURN ON");
     }
     httpd_resp_send(req, resp_str, HTTPD_RESP_USE_STRLEN);
+    return ESP_OK;
+}
+
+esp_err_t documentation_handler(httpd_req_t *req) {
+    httpd_resp_send(req, html_doc_page, HTTPD_RESP_USE_STRLEN);
     return ESP_OK;
 }
 
@@ -159,6 +164,13 @@ httpd_uri_t uri_solar_val = {
     .user_ctx  = NULL
 };
 
+httpd_uri_t uri_documentation = {
+    .uri       = "/documentation",
+    .method    = HTTP_GET,
+    .handler   = documentation_handler,
+    .user_ctx  = NULL
+};
+
 // start web server
 httpd_handle_t start_webserver(void) {
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
@@ -172,6 +184,7 @@ httpd_handle_t start_webserver(void) {
         httpd_register_uri_handler(server, &uri_def_solar);
         httpd_register_uri_handler(server, &uri_moist_val);
         httpd_register_uri_handler(server, &uri_solar_val);
+        httpd_register_uri_handler(server, &uri_documentation);
     }
     return server;
 }
@@ -196,9 +209,10 @@ void run_webui(void *pvParameters)
     gpio_set_direction(LED_PIN, GPIO_MODE_OUTPUT);
     esp_rom_gpio_pad_select_gpio(PUMP_GPIO);
     gpio_set_direction(PUMP_GPIO, GPIO_MODE_OUTPUT);
+    // set gpios to work
     gpio_set_level(PUMP_GPIO, true);
     gpio_set_level(LED_PIN, true);
-    // vTaskDelay(pdMS_TO_TICKS(1000));
+    vTaskDelay(pdMS_TO_TICKS(1000));
     gpio_set_level(PUMP_GPIO, false);
     gpio_set_level(LED_PIN, false);
 
@@ -212,6 +226,6 @@ void run_webui(void *pvParameters)
         // int pump_gpio_state = 0;
         // pump_gpio_state = gpio_get_level(4);
         // printf("%s: Current value of GPIO for pump : %d \n", TAG_webui, pump_gpio_state);
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 }

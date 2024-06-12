@@ -12,9 +12,6 @@
 #include "esp_err.h"
 #include "esp_log.h"
 
-// #include "wifi_connect.h"
-
-
 #include <string.h>
 #include "sdkconfig.h"
 #include "esp_event.h"
@@ -28,6 +25,8 @@
 #include "freertos/event_groups.h"
 #include "lwip/err.h"
 #include "lwip/sys.h"
+
+// SET OF STANDARD WIFI FUNCTIONS FOR ESP32
 
 #define GOT_IPV4_BIT BIT(0)
 
