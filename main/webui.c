@@ -23,15 +23,19 @@
 #define WIFI_PASS "wwmz5043"
 #define LED_PIN 2 // GPIO pin dla niebieskiego leda z prawej
 #define PUMP_GPIO 5 // GPIO for pump
+// #define MOISTURE_THRESHOLD  25.0
+// #define MOISTURE_THRESHOLD_L 22.0
+// #define MOISTURE_THRESHOLD_L  (MOISTURE_THRESHOLD - (MOISTURE_THRESHOLD/10))
 
 //** variables
 static const char *TAG_webui = "WEBUI";
 static bool led_state = false;
 static int nr_of_switches = 0;
-static uint16_t MOISTURE_THRESHOLD = 2000;
-static uint16_t SOLAR_THRESHOLD = 2000;
+static double MOISTURE_THRESHOLD = 25.0;
+static uint16_t SOLAR_THRESHOLD = 3000.0;
+static uint16_t MOISTURE_THRESHOLD_L = 22.0;
 static bool water_pump_state = false;
-static char *mv_unit = " mV ";
+static char *moisture_unit = " %% ";
 static char *lux_unit = " lux ";
 
 // additional
@@ -45,8 +49,8 @@ esp_err_t get_handler(httpd_req_t *req) {
 
 esp_err_t def_moist_handler(httpd_req_t *req) {
     char str[10];
-    int str_len = sprintf(str, "%d", MOISTURE_THRESHOLD);
-    strcat(str, mv_unit);
+    int str_len = sprintf(str, "%f", MOISTURE_THRESHOLD);
+    strcat(str, moisture_unit);
     httpd_resp_send(req, str, HTTPD_RESP_USE_STRLEN);
     return ESP_OK;
 }
@@ -61,8 +65,8 @@ esp_err_t def_solar_handler(httpd_req_t *req) {
 
 esp_err_t moist_val_handler(httpd_req_t *req) {
     char str[10];
-    int str_len = sprintf(str, "%ld", MOISTURE_MEASUREMENT);
-    strcat(str, mv_unit);
+    int str_len = sprintf(str, "%f", MOISTURE_MEASUREMENT);
+    strcat(str, moisture_unit);
     httpd_resp_send(req, str, HTTPD_RESP_USE_STRLEN);
     return ESP_OK;
 }
@@ -98,6 +102,8 @@ esp_err_t toggle_handler(httpd_req_t *req) {
 // handler for turning pump on and off
 esp_err_t turn_on_off_pump_handler(httpd_req_t *req) {
     water_pump_state = !water_pump_state;
+    led_state = water_pump_state;
+    gpio_set_level(LED_PIN, led_state);
     gpio_set_level(PUMP_GPIO, water_pump_state);
     char *resp_str[25];
     if (water_pump_state){
@@ -219,13 +225,13 @@ void run_webui(void *pvParameters)
     // Start webui
     httpd_handle_t server = start_webserver();
     if (server == NULL) {
-        ESP_LOGI(TAG_webui, "Failed to start web server");
+        ESP_LOGI(TAG_webui, "Failed to start web server\n");
+    }
+    else {
+        ESP_LOGI(TAG_webui, "Web server started\n");
     }
 
     while (1) {
-        // int pump_gpio_state = 0;
-        // pump_gpio_state = gpio_get_level(4);
-        // printf("%s: Current value of GPIO for pump : %d \n", TAG_webui, pump_gpio_state);
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }

@@ -14,7 +14,8 @@ static const adc2_channel_t channel = ADC_CHANNEL_0;
 static const adc_atten_t atten = ADC_ATTEN_DB_12;
 static const adc_unit_t unit = ADC_UNIT_1;
 
-static uint32_t MOISTURE_MEASUREMENT = 0;
+static double MOISTURE_MEASUREMENT = 0.0;
+static double max_voltage = 3145.0;
 
 
 void moisture_meter_task(void *pvParameters)
@@ -45,7 +46,7 @@ void moisture_meter_task(void *pvParameters)
         adc_reading /= NO_OF_SAMPLES;
         // convert values to voltage
         uint32_t voltage = esp_adc_cal_raw_to_voltage(adc_reading, adc_chars);
-        MOISTURE_MEASUREMENT = voltage;
+        MOISTURE_MEASUREMENT = (1 - voltage/max_voltage) * 100;
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
